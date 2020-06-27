@@ -44,7 +44,7 @@ const Button: React.FC<Iprops> = ({
       <div
         className={type_button}
         onClick={() => onClick && onClick()}
-        style={JSON.stringify(style) == '{}' ? {} : style}
+        style={JSON.stringify(style) === '{}' ? {} : style}
       >
         <div className="icon_button">{icons}</div>
         {children}
