@@ -1,0 +1,68 @@
+.fish_button {
+  color: #fff;
+  font-size: 12px;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  .primary_button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+    padding: 0 12px;
+    height: 28px;
+    width: auto;
+    border-width: 1px;
+    background: #5584ff;
+    &:hover {
+      background: #3e71f7;
+    }
+  }
+  .normal_button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+    border-radius: 3px;
+    padding: 0 12px;
+    height: 28px;
+    width: auto;
+    border-width: 1px;
+    background: #fff;
+    border: 1px solid #c4c6cf;
+    &:hover {
+      background: #f2f3f7;
+      border-color: #a0a2ad;
+    }
+  }
+  .text_button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+    padding: 0 12px;
+    height: 28px;
+    width: auto;
+    color: #5584ff;
+    &:hover {
+      color: #3e71f7;
+    }
+  }
+  .icon_button {
+    margin-right: 10px;
+  }
+  .disabled_button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+    border-radius: 3px;
+    padding: 0 12px;
+    height: 28px;
+    width: auto;
+    color: #ccc;
+    cursor: not-allowed;
+    background-color: #f7f8fa;
+    border-color: #e6e7eb;
+  }
+}
