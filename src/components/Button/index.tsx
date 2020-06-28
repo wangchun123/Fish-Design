@@ -65,7 +65,7 @@ const Button: React.FC<Iprops> = ({
             <Loading />
           </div>
         )}
-        <div className="icon_button">{icons}</div>
+        {icons && <div className="icon_button">{icons}</div>}
         {children}
       </div>
     </div>

@@ -1,6 +1,5 @@
 import React from 'react';
 import Button from '@/components/Button';
-import Loding from '@/image/loding.gif';
 
 import './index.less';
 
@@ -44,8 +43,13 @@ export default () => {
         <Button
           type="primary"
           text={false}
-          // loading={true}
-          icons={<img src={Loding} alt="" style={{ height: '12px' }} />}
+          icons={
+            <img
+              src="https://img.alicdn.com/tps/TB19O79MVXXXXcZXVXXXXXXXXXX-1024-1024.jpg"
+              alt=""
+              style={{ height: '16px' }}
+            />
+          }
           disabled={false}
           onClick={() => alert(1)}
           style={{ width: '200px' }}
