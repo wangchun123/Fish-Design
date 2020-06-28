@@ -1,5 +1,6 @@
 import React from 'react';
-import Loding from '@/image/loding.gif';
+import Loding from '@/image/loading/loding.gif';
+
 import './index.less';
 
 interface Iprops {}
