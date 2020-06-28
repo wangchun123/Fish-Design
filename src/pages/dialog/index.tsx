@@ -34,7 +34,11 @@ export default () => {
         title="nisidisdqweqweqwewqe"
         visible={visibleTwo}
         footerContent={[
-          <Button type="primary" onClick={() => setVisibleTwo(false)}>
+          <Button
+            type="primary"
+            onClick={() => setVisibleTwo(false)}
+            loading={true}
+          >
             confirm
           </Button>,
           <Button
