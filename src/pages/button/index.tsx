@@ -8,19 +8,29 @@ export default () => {
     <div className="test_button">
       <p>1.button的几种类型:</p>
       <div className="package">
-        <Button>normal</Button>
+        <Button style={{ width: '60px' }}>normal</Button>
         <br />
-        <Button type="primary">primary</Button>
+        <Button type="primary" style={{ width: '60px' }}>
+          primary
+        </Button>
       </div>
       <p>2.button的文字模式</p>
       <div className="package">
-        <Button text={true}>text</Button>
+        <Button text={true} style={{ width: '60px' }}>
+          text
+        </Button>
         <br />
-        <Button text={true}>test</Button>
+        <Button text={true} style={{ width: '60px' }}>
+          test
+        </Button>
       </div>
       <p>3.不可用状态</p>
       <div className="package">
-        <Button disabled={true} onClick={() => alert(1)}>
+        <Button
+          disabled={true}
+          onClick={() => alert(1)}
+          style={{ width: '60px' }}
+        >
           disabled
         </Button>
       </div>
