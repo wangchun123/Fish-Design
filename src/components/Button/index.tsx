@@ -54,7 +54,10 @@ const Button: React.FC<Iprops> = ({
   }
 
   return (
-    <div className="fish_button">
+    <div
+      className="fish_button"
+      style={disabled ? { cursor: 'not-allowed' } : { cursor: 'pointer' }}
+    >
       <div
         className={type_button}
         onClick={() => onClick && onClick()}

@@ -20,7 +20,7 @@ export default () => {
       </div>
       <p>3.不可用状态</p>
       <div className="package">
-        <Button text={true} disabled={true}>
+        <Button disabled={true} onClick={() => alert(1)}>
           disabled
         </Button>
       </div>
