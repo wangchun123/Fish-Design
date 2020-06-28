@@ -1,0 +1,50 @@
+.fish_dialog {
+  .mask {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.2);
+  }
+  .dialog_content {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 360px;
+    min-height: 140px;
+    z-index: 1001;
+    background: #fff;
+    border: 1px solid #dcdee3;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
+    text-align: left;
+    overflow: hidden;
+    padding: 10px 20px;
+    .top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .title {
+        font-size: 16px;
+        background: transparent;
+        color: #333;
+        font-family: Roboto, Helvetica Neue, Helvetica, Tahoma, Arial,
+          PingFang SC, Microsoft YaHei;
+        // font-weight: bolder;
+      }
+    }
+    .content {
+      padding: 20px 0px;
+      font-size: 12px;
+      color: #666;
+    }
+    .footer {
+      display: flex;
+      align-items: center;
+      padding: 20px 0px;
+    }
+  }
+}
