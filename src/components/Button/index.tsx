@@ -1,4 +1,5 @@
 import React from 'react';
+import Loading from '@/components/Loading';
 
 import './index.less';
 
@@ -10,6 +11,7 @@ interface Iprops {
   icons?: React.ReactNode;
   disabled?: boolean;
   style?: object;
+  loading?: boolean;
 }
 
 const Button: React.FC<Iprops> = ({
@@ -20,6 +22,7 @@ const Button: React.FC<Iprops> = ({
   icons,
   disabled = false,
   style,
+  loading = false,
 }) => {
   let type_button = '';
   switch (type) {
@@ -39,6 +42,17 @@ const Button: React.FC<Iprops> = ({
     type_button = 'disabled_button';
   }
 
+  if (loading) {
+    switch (type) {
+      case 'primary':
+        type_button = 'primary_button_loading';
+        break;
+      case 'normal':
+        type_button = 'normal_button_loading';
+        break;
+    }
+  }
+
   return (
     <div className="fish_button">
       <div
@@ -46,6 +60,11 @@ const Button: React.FC<Iprops> = ({
         onClick={() => onClick && onClick()}
         style={JSON.stringify(style) === '{}' ? {} : style}
       >
+        {loading && (
+          <div className="icon_button">
+            <Loading />
+          </div>
+        )}
         <div className="icon_button">{icons}</div>
         {children}
       </div>
