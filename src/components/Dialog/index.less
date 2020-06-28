@@ -13,6 +13,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    animation: fadeInDown 0.3s;
     min-width: 360px;
     min-height: 140px;
     z-index: 1001;
@@ -46,5 +47,15 @@
       align-items: center;
       padding: 20px 0px;
     }
+  }
+}
+
+@keyframes fadeInDown {
+  0% {
+    transform: translate(-50%, -200%);
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }
