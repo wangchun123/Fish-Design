@@ -5,7 +5,7 @@ import './index.less';
 
 interface Iprops {
   children?: any;
-  type?: string;
+  type?: 'primary' | 'normal';
   onClick?: () => void;
   text?: boolean;
   icons?: React.ReactNode;

@@ -2,18 +2,21 @@ import React, { useState } from 'react';
 import Dialog from '@/components/Dialog';
 import Button from '@/components/Button';
 
+import './index.less';
+
 export default () => {
   const [visible, setVisible] = useState(false);
+  const [visibleTwo, setVisibleTwo] = useState(false);
+
   return (
-    <>
-      <Button onClick={() => setVisible(true)}>open</Button>
+    <div className="test_dialog">
+      <p>1.Open dialog</p>
+      <Button onClick={() => setVisible(true)} type="primary">
+        Open dialog
+      </Button>
       <Dialog
-        hasMask={true}
         title="nisidisdqweqweqwewqe"
         visible={visible}
-        hasFooter={true}
-        // footerAlign='right'
-        // footerContent={[<Button>12321</Button>, <Button>12321</Button>]}
         style={{ width: '500px' }}
         onOk={() => setVisible(false)}
         onCancel={() => setVisible(false)}
@@ -21,6 +24,31 @@ export default () => {
       >
         qwewq
       </Dialog>
-    </>
+
+      <p>2.定制底部按钮</p>
+      <Button onClick={() => setVisibleTwo(true)} type="primary">
+        Open dialog
+      </Button>
+
+      <Dialog
+        title="nisidisdqweqweqwewqe"
+        visible={visibleTwo}
+        footerContent={[
+          <Button type="primary" onClick={() => setVisibleTwo(false)}>
+            confirm
+          </Button>,
+          <Button
+            style={{ marginLeft: '10px' }}
+            onClick={() => setVisibleTwo(false)}
+          >
+            cancel
+          </Button>,
+        ]}
+        style={{ width: '500px' }}
+        onClose={() => setVisibleTwo(false)}
+      >
+        qwewq
+      </Dialog>
+    </div>
   );
 };
