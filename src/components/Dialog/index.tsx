@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from '@/components/Button';
+import Close from '@/image/dialog/close.png';
 
 import './index.less';
 
@@ -56,7 +57,7 @@ const Dialog: React.FC<Iprops> = ({
             <div className="top">
               <div className="title">{title}</div>
               <div className="close" onClick={() => onClose && onClose()}>
-                关闭
+                <img src={Close} alt="" />
               </div>
             </div>
             <div className="content">{children}</div>
