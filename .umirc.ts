@@ -16,6 +16,7 @@ export default defineConfig({
         { path: '/button', component: 'button', title: 'button' },
         { path: '/dialog', component: 'dialog', title: 'dialog' },
         { path: '/menu', component: 'menu', title: 'menu' },
+        { path: '/loading', component: 'loading', title: 'loading' },
       ],
     },
   ],
