@@ -4,15 +4,18 @@ export default defineConfig({
   nodeModulesTransform: {
     type: 'none',
   },
+  title: '',
+  favicon:
+    'https://img.alicdn.com/tps/TB19O79MVXXXXcZXVXXXXXXXXXX-1024-1024.jpg',
   routes: [
     {
       path: '/',
       component: '@/pages/index',
       routes: [
-        { path: '/', component: 'button' },
-        { path: '/button', component: 'button' },
-        { path: '/dialog', component: 'dialog' },
-        { path: '/menu', component: 'menu' },
+        { path: '/', component: 'button', title: 'button' },
+        { path: '/button', component: 'button', title: 'button' },
+        { path: '/dialog', component: 'dialog', title: 'dialog' },
+        { path: '/menu', component: 'menu', title: 'menu' },
       ],
     },
   ],
