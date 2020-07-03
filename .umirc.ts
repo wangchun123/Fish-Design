@@ -9,6 +9,7 @@ export default defineConfig({
       path: '/',
       component: '@/pages/index',
       routes: [
+        { path: '/', component: 'button' },
         { path: '/button', component: 'button' },
         { path: '/dialog', component: 'dialog' },
         { path: '/menu', component: 'menu' },
