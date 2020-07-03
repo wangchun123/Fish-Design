@@ -15,6 +15,8 @@ interface Iprops {
   defaultSelectedKeys?: string;
   itemStyle?: object;
   menuStyle?: object;
+  personalInformation?: React.ReactNode;
+  helpCenter?: React.ReactNode;
 }
 
 const Menu: React.FC<Iprops> = ({
@@ -23,6 +25,8 @@ const Menu: React.FC<Iprops> = ({
   defaultSelectedKeys,
   itemStyle,
   menuStyle,
+  personalInformation,
+  helpCenter,
 }) => {
   const [menuData, setMenuData] = useState(data);
 
@@ -49,6 +53,7 @@ const Menu: React.FC<Iprops> = ({
         className="content"
         style={JSON.stringify(menuStyle) === '{}' ? {} : menuStyle}
       >
+        {personalInformation}
         {menuData.map((item, index) => {
           return (
             <span
@@ -64,6 +69,7 @@ const Menu: React.FC<Iprops> = ({
             </span>
           );
         })}
+        <div className="help_center">{helpCenter}</div>
       </div>
     </div>
   );
