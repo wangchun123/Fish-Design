@@ -8,5 +8,6 @@ export default defineConfig({
     { path: '/', component: '@/pages/index' },
     { path: '/button', component: '@/pages/button/index' },
     { path: '/dialog', component: '@/pages/dialog/index' },
+    { path: '/menu', component: '@/pages/menu/index' },
   ],
 });
