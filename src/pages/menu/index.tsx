@@ -4,6 +4,7 @@ import Menu from '@/components/Menu';
 export default () => {
   return (
     <div className="test_menu">
+      <p>1.基本用法</p>
       <Menu
         data={[
           { url: '123', title: 'qwe', key: '1' },

@@ -22,7 +22,7 @@ export default ({ children, location }: any) => {
           data={MENU_DATA}
           onChange={(item, index) => history.push(`${item.url}`)}
           defaultSelectedKeys={defaultSelectedKeys}
-          menuStyle={{ height: '100vh' }}
+          menuStyle={{ height: '100vh', background: '#ffff' }}
           personalInformation={
             <div className="personal_information">Fish Design</div>
           }
@@ -35,7 +35,9 @@ export default ({ children, location }: any) => {
           }
         />
       </div>
-      <div className="fish_index_content">{children}</div>
+      <div className="fish_index_content">
+        <div className="fish_index_content_compent">{children}</div>
+      </div>
     </div>
   );
 };
