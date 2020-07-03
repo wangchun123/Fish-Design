@@ -4,13 +4,21 @@ import Loading from '@/components/Loading';
 import './index.less';
 
 interface Iprops {
+  /** button的接受值*/
   children?: any;
+  /** button的类型*/
   type?: 'primary' | 'normal';
+  /** button的点击事件*/
   onClick?: () => void;
+  /** button的文本状态*/
   text?: boolean;
+  /** button的icon*/
   icons?: React.ReactNode;
+  /** button的禁止*/
   disabled?: boolean;
+  /** button的定制样式*/
   style?: object;
+  /** button的加载*/
   loading?: boolean;
 }
 

@@ -3,19 +3,30 @@ import React, { useState } from 'react';
 import './index.less';
 
 interface Item {
+  /** menu的子项的路径*/
   url?: string;
+  /** menu的子项的标题*/
   title?: string | React.ReactNode;
+  /** menu的子项的选中状态*/
   isActive?: boolean;
+  /** menu的子项的唯一key值*/
   key?: string;
 }
 
 interface Iprops {
+  /** menu的渲染数据*/
   data?: Item[];
+  /** menu的子项的点击事件*/
   onChange?: (item: Item, index: number) => void;
+  /** menu的默认展示的子项*/
   defaultSelectedKeys?: string;
+  /** menu的子项定制样式*/
   itemStyle?: object;
+  /** menu的样式定制*/
   menuStyle?: object;
+  /** menu的顶部放置区域*/
   personalInformation?: React.ReactNode;
+  /** menu的底部放置区域*/
   helpCenter?: React.ReactNode;
 }
 
