@@ -5,9 +5,14 @@ export default defineConfig({
     type: 'none',
   },
   routes: [
-    { path: '/', component: '@/pages/index' },
-    { path: '/button', component: '@/pages/button/index' },
-    { path: '/dialog', component: '@/pages/dialog/index' },
-    { path: '/menu', component: '@/pages/menu/index' },
+    {
+      path: '/',
+      component: '@/pages/index',
+      routes: [
+        { path: '/button', component: 'button' },
+        { path: '/dialog', component: 'dialog' },
+        { path: '/menu', component: 'menu' },
+      ],
+    },
   ],
 });
