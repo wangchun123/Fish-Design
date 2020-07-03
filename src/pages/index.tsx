@@ -17,16 +17,24 @@ export default ({ children, location }: any) => {
 
   return (
     <div className="fish_index">
-      <Menu
-        data={MENU_DATA}
-        onChange={(item, index) => history.push(`${item.url}`)}
-        defaultSelectedKeys={defaultSelectedKeys}
-        menuStyle={{ height: '110vh' }}
-        personalInformation={
-          <div className="personal_information">Fish Design</div>
-        }
-        helpCenter={'12312'}
-      />
+      <div className="menu">
+        <Menu
+          data={MENU_DATA}
+          onChange={(item, index) => history.push(`${item.url}`)}
+          defaultSelectedKeys={defaultSelectedKeys}
+          menuStyle={{ height: '100vh' }}
+          personalInformation={
+            <div className="personal_information">Fish Design</div>
+          }
+          helpCenter={
+            <div className="index_help_center">
+              <a href="https://blog.csdn.net/qq_40959617" target="true">
+                CSDN博客网址
+              </a>
+            </div>
+          }
+        />
+      </div>
       <div className="fish_index_content">{children}</div>
     </div>
   );
