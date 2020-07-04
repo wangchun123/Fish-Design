@@ -1,6 +1,15 @@
 import React from 'react';
-import Message from '@/components/Message';
+import { Message } from '@/components/Message';
+import Button from '@/components/Button';
 
 export default () => {
-  return <Message />;
+  const handel = () => {
+    Message.success({ title: '123123' });
+  };
+
+  return (
+    <>
+      <Button onClick={() => handel()}>成功</Button>
+    </>
+  );
 };

@@ -1,11 +1,40 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
+import MessageComponent from './components/index';
 
-import './index.less';
+interface Item {
+  title?: string;
+  timer?: NodeJS.Timer | null;
+  id?: number;
+}
 
-interface Iprops {}
+interface Msg {
+  refs?: any;
+}
 
-const Message: React.FC<Iprops> = () => {
-  return <>12321</>;
-};
+class Msg {
+  static getInstance: () => any;
+  constructor() {
+    let myRef = { current: '' };
+    const div = document.createElement('div');
+    document.body.append(div);
+    ReactDOM.render(<MessageComponent ref={myRef} />, div);
+    this.refs = myRef;
+  }
 
-export default Message;
+  public success(options: Item) {
+    this.refs.current.add(options);
+  }
+}
+
+Msg.getInstance = (function() {
+  let instance: any;
+  return function() {
+    if (!instance) {
+      instance = new Msg();
+    }
+    return instance;
+  };
+})();
+
+export const Message = Msg.getInstance();
