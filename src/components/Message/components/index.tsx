@@ -7,11 +7,13 @@ interface Item {
   title?: string;
   timer?: NodeJS.Timer | null;
   id?: number;
+  type?: string;
 }
 
 interface Istate {
   messages: Item[];
   id: number;
+  type: any;
 }
 
 interface Iprops {
@@ -24,11 +26,12 @@ class MessageComponent extends Component<Iprops, Istate> {
     this.state = {
       id: 0,
       messages: [],
+      type: '',
     };
   }
 
   add = (options: Item) => {
-    let { messages, id } = this.state;
+    let { messages, id, type } = this.state;
 
     let layer = {
       id: id++,
@@ -41,7 +44,7 @@ class MessageComponent extends Component<Iprops, Istate> {
 
     messages.push(layer);
 
-    this.setState({ messages, id });
+    this.setState({ messages, id, type: options.type });
   };
 
   remove = (layer: any) => {
@@ -53,11 +56,13 @@ class MessageComponent extends Component<Iprops, Istate> {
   };
 
   render() {
+    const { messages, type } = this.state;
+
     return (
       <div className="fish_message">
-        {this.state.messages.map((item: Item, index) => (
+        {messages.map((item: Item, index) => (
           <div key={item.id} className="message">
-            <Icon type="success" />
+            <Icon type={type} />
             &nbsp;
             {item.title}
           </div>

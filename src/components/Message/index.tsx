@@ -23,7 +23,11 @@ class Msg {
   }
 
   public success(options: Item) {
-    this.refs.current.add(options);
+    this.refs.current.add({ ...options, type: 'success' });
+  }
+
+  public error(options: Item) {
+    this.refs.current.add({ ...options, type: 'error' });
   }
 }
 
