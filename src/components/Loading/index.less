@@ -1,3 +1,38 @@
 .fish_loading {
   display: flex;
+  .fish_loading_content {
+    position: relative;
+    .fish_loading_mask_full {
+      position: fixed;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 1000;
+      background: rgba(0, 0, 0, 0.2);
+      opacity: 0.5;
+    }
+    .fish_loading_mask_default {
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 1000;
+      background: rgba(0, 0, 0, 0.2);
+      opacity: 0.5;
+    }
+    .fish_loading_icon_full {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .fish_loading_icon_default {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
 }
