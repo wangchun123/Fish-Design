@@ -4,7 +4,7 @@ import Button from '@/components/Button';
 
 export default () => {
   const handel = () => {
-    Message.success({ title: '123123' });
+    Message.success({ title: '123123qweqweqwewqeqwewqewqewq' });
   };
 
   return (

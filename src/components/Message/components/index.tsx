@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import Icon from '@/components/Icon';
+
 import './index.less';
 
 interface Item {
@@ -27,6 +29,7 @@ class MessageComponent extends Component<Iprops, Istate> {
 
   add = (options: Item) => {
     let { messages, id } = this.state;
+
     let layer = {
       id: id++,
       ...options,
@@ -54,6 +57,8 @@ class MessageComponent extends Component<Iprops, Istate> {
       <div className="fish_message">
         {this.state.messages.map((item: Item, index) => (
           <div key={item.id} className="message">
+            <Icon type="success" />
+            &nbsp;
             {item.title}
           </div>
         ))}
