@@ -13,3 +13,9 @@ Start the dev server,
 ```bash
 $ yarn start
 ```
+
+Start my src/server,
+
+```bash
+$ nodemon server.js
+``` 
