@@ -4,4 +4,5 @@ export const MENU_DATA = [
   { url: '/menu', title: 'Menu', key: '3' },
   { url: '/loading', title: 'Loading', key: '4' },
   { url: '/message', title: 'Message', key: '5' },
+  { url: '/axios-test', title: 'axios-test', key: '6' },
 ];

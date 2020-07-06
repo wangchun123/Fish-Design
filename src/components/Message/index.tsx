@@ -41,4 +41,5 @@ Msg.getInstance = (function() {
   };
 })();
 
-export const Message = Msg.getInstance();
+const Message = Msg.getInstance();
+export default Message;

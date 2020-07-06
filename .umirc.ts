@@ -18,6 +18,7 @@ export default defineConfig({
         { path: '/menu', component: 'menu', title: 'menu' },
         { path: '/loading', component: 'loading', title: 'loading' },
         { path: '/message', component: 'message', title: 'message' },
+        { path: '/axios-test', component: 'axios-test', title: 'axios-test' },
       ],
     },
   ],
