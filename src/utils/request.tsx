@@ -4,7 +4,7 @@ import Message from '@/components/Message';
 function request(config: any) {
   const instance = axios.create({
     // baseURL: process.env.BASE_API, // api 的 base_url
-    timeout: 5000, // request timeout  设置请求超时时间
+    timeout: 1000, // request timeout  设置请求超时时间
     responseType: 'json',
     withCredentials: true, // 是否允许带cookie这些
     headers: {
@@ -44,6 +44,7 @@ function request(config: any) {
       // 如果返回的状态码为200，说明接口请求成功，可以正常拿到数据
       // 否则的话抛出错误
       if (response.status === 200) {
+        Message.success({ title: 'success' });
         return Promise.resolve(response);
       } else {
         return Promise.reject(response);
@@ -54,7 +55,7 @@ function request(config: any) {
     // 然后根据返回的状态码进行一些操作，例如登录过期提示，错误提示等等
     // 下面列举几个常见的操作，其他需求可自行扩展
     error => {
-      if (error.response.status) {
+      if (error && error.response && error.response.status) {
         switch (error.response.status) {
           // 401: 未登录
           // 未登录则跳转登录页面，并携带当前页面的路径
@@ -99,6 +100,7 @@ function request(config: any) {
         }
         return Promise.reject(error.response);
       }
+      Message.error({ title: '网络错误' });
     },
   );
   //发送真正的请求
