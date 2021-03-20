@@ -6,4 +6,6 @@ export const MENU_DATA = [
   { url: '/message', title: 'Message', key: '5' },
   { url: '/axios-test', title: 'axios-test', key: '6' },
   { url: '/carousel', title: 'carousel', key: '7' },
+  { url: '/editForm', title: 'editForm', key: '8' },
+  { url: '/editTable', title: 'editTable', key: '9' },
 ];

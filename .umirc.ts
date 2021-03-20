@@ -20,6 +20,8 @@ export default defineConfig({
         { path: '/message', component: 'message', title: 'message' },
         { path: '/axios-test', component: 'axios-test', title: 'axios-test' },
         { path: '/carousel', component: 'carousel', title: 'carousel' },
+        { path: '/editForm', component: 'editForm', title: 'editForm' },
+        { path: '/editTable', component: 'editTable', title: 'editTable' },
       ],
     },
   ],
