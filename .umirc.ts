@@ -22,6 +22,7 @@ export default defineConfig({
         { path: '/carousel', component: 'carousel', title: 'carousel' },
         { path: '/editForm', component: 'editForm', title: 'editForm' },
         { path: '/editTable', component: 'editTable', title: 'editTable' },
+        { path: '/g6Tree', component: 'g6Tree', title: 'g6Tree' },
       ],
     },
   ],

@@ -8,4 +8,5 @@ export const MENU_DATA = [
   { url: '/carousel', title: 'carousel', key: '7' },
   { url: '/editForm', title: 'editForm', key: '8' },
   { url: '/editTable', title: 'editTable', key: '9' },
+  { url: '/g6Tree', title: 'g6Tree', key: '10' },
 ];
