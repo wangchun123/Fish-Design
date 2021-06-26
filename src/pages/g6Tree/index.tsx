@@ -38,25 +38,26 @@ const G6Tree = () => {
       plugins: [tooltip()],
     });
 
-    let listAA = JSON.parse(JSON.stringify(data));
-    const loop = data => {
+    let newData = JSON.parse(JSON.stringify(data));
+
+    const getFirstFloorData = (data: Record<string, any>[]) => {
       data.forEach(item => {
         if (item.id.length >= 2) {
           if (item.children) {
-            item = graph.findDataById(item.id, listAA).children = [];
+            item = graph.findDataById(item.id, newData).children = [];
           }
         }
         if (item.children) {
-          loop(item.children);
+          getFirstFloorData(item.children);
         }
       });
       return data;
     };
 
-    loop([listAA]);
+    getFirstFloorData([newData]);
 
     graph.setAutoPaint(true);
-    graph.read(listAA);
+    graph.read(newData);
     graph.render();
     graph.fitCenter(true);
     graph.zoom(0.8); // 默认缩放图形大小
@@ -76,16 +77,24 @@ const G6Tree = () => {
     graph.on('node:click', evt => {
       const { target, item } = evt;
 
+      console.log('evt',evt);
+
       const id = target.get('modelId');
+      
       const item22 = graph.findById(id);
+
       const nodeModel = item22 && item22.getModel();
+
       const name = target.get('name');
+      
       if (name === 'collapse-icon') {
         let gsixAa = graph.findDataById(
           id,
           JSON.parse(JSON.stringify(cloneData)),
         );
+
         if (JSON.stringify(nodeModel.children) !== '[]') {
+
           gsixAa &&
             gsixAa.children.forEach(item => {
               nodeModel.children = nodeModel.children ? [] : null;
@@ -93,7 +102,9 @@ const G6Tree = () => {
           let gsixModel = JSON.parse(JSON.stringify(nodeModel));
           graph.updateChild(gsixModel, gsixModel.id);
           graph.setItemState(item22, 'collapsed', nodeModel.collapsed);
+
         } else {
+            
           if (!nodeModel.children) {
             nodeModel.children = [];
           }
