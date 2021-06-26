@@ -13,13 +13,13 @@ const tooltip = () =>
       //outDiv.style.padding = '0px 0px 20px 0px';
       outDiv.innerHTML = `
               <h4>Custom Content</h4>
-              <ul>
-                <li>Type: ${e.item.getType()}</li>
-              </ul>
-              <ul>
-                <li>Label: ${e.item.getModel().label ||
-                  e.item.getModel().id}</li>
-              </ul>`;
+              <div>
+                <div>Type: ${e.item.getType()}</div>
+              </div>
+              <div>
+                <div>Label: ${e.item.getModel().label ||
+                  e.item.getModel().id}</div>
+              </div>`;
       return outDiv;
     },
   });
