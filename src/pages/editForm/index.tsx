@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import EditForm from '@/components/EditForm';
-import { Button, Modal, Input, Select } from 'antd';
+import { Button, Modal, Input, Select, message } from 'antd';
 
 const data = [
   {
@@ -26,6 +26,57 @@ const Demo = () => {
 
   const saveData = val => {
     setDataSource(val);
+  };
+
+  const onSubmit = () => {
+    let errorObj = { falg: true, parentIndex: 0, childrenIndex: 0 };
+
+    dataSource.some((dataSourceItem, dataSourceIndex) => {
+      const dataSourceObj = Object.values(dataSourceItem);
+      if (dataSourceObj.includes('')) {
+        errorObj = {
+          falg: false,
+          parentIndex: dataSourceIndex + 1,
+          childrenIndex: 0,
+        };
+        return;
+      }
+
+      if (dataSourceItem?.children) {
+        const { children } = dataSourceItem;
+        children.forEach((childrenItem, childrenIndex) => {
+          const childrenObj = Object.values(childrenItem);
+          if (childrenObj?.includes('')) {
+            errorObj = {
+              falg: false,
+              parentIndex: dataSourceIndex + 1,
+              childrenIndex: childrenIndex + 1,
+            };
+            return;
+          }
+        });
+      }
+    });
+
+    if (errorObj.falg) {
+      Modal.success({
+        title: '获取数据',
+        content: (
+          <Input.TextArea
+            value={JSON.stringify(dataSource, null, 10)}
+            autoSize={{ minRows: 20, maxRows: 10 }}
+          />
+        ),
+        bodyStyle: { height: '500px' },
+        width: '100vw',
+      });
+    } else {
+      const errortext = errorObj.childrenIndex
+        ? `请检查第${errorObj.parentIndex}个规则,第${errorObj.childrenIndex}个条件或者名字有未填项`
+        : `请检查第${errorObj.parentIndex}个规则或者名字有未填项`;
+
+      message.error(errortext);
+    }
   };
 
   return (
@@ -73,25 +124,9 @@ const Demo = () => {
           },
         }}
       />
-      <Button
-        type="primary"
-        onClick={() =>
-          Modal.success({
-            title: '获取数据',
-            content: (
-              <Input.TextArea
-                value={JSON.stringify(dataSource, null, 10)}
-                autoSize={{ minRows: 20, maxRows: 10 }}
-              />
-            ),
-            bodyStyle: { height: '500px' },
-            width: '100vw',
-          })
-        }
-      >
+      <Button type="primary" onClick={() => onSubmit()}>
         提交
       </Button>
-      
     </>
   );
 };
