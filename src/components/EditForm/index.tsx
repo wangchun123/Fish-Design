@@ -1,15 +1,42 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Collapse, Select, Input, Row, Col, Radio, Modal } from 'antd';
+import React, { FC, useState, useEffect } from 'react';
+import { Button, Collapse, Input, Row, Col, Radio } from 'antd';
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 
 import { cloneDeep } from 'lodash';
 
+interface DemoProps {
+  /** 回显的数据 */
+  data?: any;
+  /** 搜集数据 */
+  saveData?: (val: any) => void;
+
+  /** 手动渲染第二层子节点的变化 */
+  renderChildrenNode?: {
+    renderChildrenLeftNode: (
+      item: Record<string, any>,
+      fun: (param: any) => void,
+    ) => React.ReactNode;
+    renderChildrenCenterNode: (
+      item: Record<string, any>,
+      fun: (param: any) => void,
+    ) => React.ReactNode;
+    renderChildrenRightNode: (
+      item: Record<string, any>,
+      fun: (param: any) => void,
+    ) => React.ReactNode;
+  };
+}
+
 const { Panel } = Collapse;
-const { Option } = Select;
 const { TextArea } = Input;
 
-const Demo = ({ data, saveData }: any) => {
+const Demo: FC<DemoProps> = ({ data, saveData, renderChildrenNode }) => {
   const [dataSource, setDataSource] = useState([]);
+  const [panelActiveKey, setPanelActiveKey] = useState([1]);
 
+  /**
+   * 添加规则
+   */
   const addRule = () => {
     const newData = cloneDeep(dataSource);
     newData.push({
@@ -21,8 +48,12 @@ const Demo = ({ data, saveData }: any) => {
     });
     saveData && saveData(newData);
     setDataSource(newData);
+    setPanelActiveKey(newData.length);
   };
 
+  /**
+   * 删除规则
+   */
   const deleteRule = (index: number) => {
     const newData = cloneDeep(dataSource);
     newData.splice(index, 1);
@@ -30,6 +61,9 @@ const Demo = ({ data, saveData }: any) => {
     setDataSource(newData);
   };
 
+  /**
+   * 添加条件
+   */
   const addCondition = (index: number) => {
     const newData = cloneDeep(dataSource);
     newData[index].children.push({ name: '', age: '', addres: '' });
@@ -37,6 +71,9 @@ const Demo = ({ data, saveData }: any) => {
     setDataSource(newData);
   };
 
+  /**
+   * 删除条件
+   */
   const deleteCondition = (index: number, idx: number) => {
     const newData = cloneDeep(dataSource);
     newData[index].children.splice(idx, 1);
@@ -44,6 +81,9 @@ const Demo = ({ data, saveData }: any) => {
     setDataSource(newData);
   };
 
+  /**
+   * 第一层数据改变的事件
+   */
   const wraperChange = (value: string, name: string, index: number) => {
     const newData = cloneDeep(dataSource);
     newData[index][name] = value;
@@ -51,37 +91,90 @@ const Demo = ({ data, saveData }: any) => {
     setDataSource(newData);
   };
 
+  /**
+   * 第二层数据改变的事件
+   */
   const sonChange = (
     value: string,
     name: string,
     index: number,
-    idx: number,
+    childrenIndex: number,
   ) => {
     const newData = cloneDeep(dataSource);
-    newData[index].children[idx][name] = value;
+    newData[index].children[childrenIndex][name] = value;
     saveData && saveData(newData);
     setDataSource(newData);
   };
 
-  const onChangeTitle = (val: boolean, name: string, index: number) => {
+  /**
+   * 修改标题的事件
+   */
+  const handleEditTitle = (val: boolean, name: string, index: number) => {
     const newData = cloneDeep(dataSource);
     newData[index].isEdit = !newData[index].isEdit;
     saveData && saveData(newData);
     setDataSource(newData);
   };
 
-  const some = async (val: string, name: string, index: number) => {
+  /**
+   * 标题的触发事件
+   */
+  const onChangeTitle = async (val: string, name: string, index: number) => {
     const newData = cloneDeep(dataSource);
     newData[index].title = val;
-    let time = await new Promise((res, rej) => {
-      res(
-        setTimeout(() => {
-          newData[index].isEdit = !newData[index].isEdit;
-        }, 2000),
-      );
-    });
     saveData && saveData(newData);
     setDataSource(newData);
+  };
+
+  /**
+   * 渲染第二层的子级节点的，左边的节点
+   */
+  const renderChildrenLeftNode = (
+    childrenItem: Record<string, any>,
+    childrenIndex: number,
+    index: number,
+  ) => {
+    const valueCallBack = (val, paramKey = 'name') =>
+      sonChange(val, paramKey, index, childrenIndex);
+
+    return renderChildrenNode?.renderChildrenLeftNode(
+      childrenItem,
+      valueCallBack,
+    );
+  };
+
+  /**
+   * 渲染第二层的子级节点的，中间的节点
+   */
+  const renderChildrenCenterNode = (
+    childrenItem: Record<string, any>,
+    childrenIndex: number,
+    index: number,
+  ) => {
+    const valueCallBack = (val, paramKey = 'age') =>
+      sonChange(val, paramKey, index, childrenIndex);
+
+    return renderChildrenNode?.renderChildrenCenterNode(
+      childrenItem,
+      valueCallBack,
+    );
+  };
+
+  /**
+   * 渲染第二层的子级节点的，右边的节点
+   */
+  const renderChildrenRightNode = (
+    childrenItem: Record<string, any>,
+    childrenIndex: number,
+    index: number,
+  ) => {
+    const valueCallBack = (val, paramKey = 'addres') =>
+      sonChange(val, paramKey, index, childrenIndex);
+
+    return renderChildrenNode?.renderChildrenRightNode(
+      childrenItem,
+      valueCallBack,
+    );
   };
 
   useEffect(() => {
@@ -90,7 +183,11 @@ const Demo = ({ data, saveData }: any) => {
 
   return (
     <div className="one">
-      <Collapse defaultActiveKey={['1']} style={{ width: '100%' }}>
+      <Collapse
+        activeKey={panelActiveKey}
+        onChange={value => setPanelActiveKey(value)}
+        style={{ width: '100%' }}
+      >
         {dataSource.map((item, index) => {
           return (
             <Panel
@@ -102,7 +199,9 @@ const Demo = ({ data, saveData }: any) => {
                       <Input
                         style={{ width: '100px' }}
                         value={item.title}
-                        onChange={e => some(e.target.value, 'title', index)}
+                        onChange={e =>
+                          onChangeTitle(e.target.value, 'title', index)
+                        }
                         onBlur={() => {
                           const newData = cloneDeep(dataSource);
                           newData[index].isEdit = !newData[index].isEdit;
@@ -114,68 +213,56 @@ const Demo = ({ data, saveData }: any) => {
                   ) : (
                     <>{item.title}</>
                   )}
-                  <Button
-                    size="small"
-                    onClick={() => onChangeTitle(true, 'isEdit', index)}
-                  >
-                    编辑
-                  </Button>
+
+                  <EditOutlined
+                    onClick={() => handleEditTitle(true, 'isEdit', index)}
+                  />
                 </>
               }
               key={index + 1}
-              extra={<Button onClick={() => deleteRule(index)}>删除</Button>}
+              extra={<DeleteOutlined onClick={() => deleteRule(index)} />}
             >
-              {item?.children.map((itm, idx) => {
-                return (
-                  <Row
-                    gutter={10}
-                    align="middle"
-                    wrap={false}
-                    key={idx}
-                    style={{ marginBottom: '10px' }}
-                  >
-                    <Col>{idx + 1}</Col>
-                    <Col span={7}>
-                      <Select
-                        style={{ width: '100%' }}
-                        value={itm.name}
-                        showSearch={true}
-                        onChange={val => sonChange(val, 'name', index, idx)}
-                      >
-                        <Option value="jack">Jack</Option>
-                        <Option value="lucy">Lucy</Option>
-                        <Option value="tom">Tom</Option>
-                      </Select>
-                    </Col>
-                    <Col span={7}>
-                      <Select
-                        style={{ width: '100%' }}
-                        value={itm.age}
-                        showSearch={true}
-                        onChange={val => sonChange(val, 'age', index, idx)}
-                      >
-                        <Option value="jack">Jack</Option>
-                        <Option value="lucy">Lucy</Option>
-                        <Option value="tom">Tom</Option>
-                      </Select>
-                    </Col>
-                    <Col span={7}>
-                      <Input
-                        style={{ width: '100%' }}
-                        defaultValue={itm.addres}
-                        onChange={e =>
-                          sonChange(e.target.value, 'addres', index, idx)
-                        }
-                      ></Input>
-                    </Col>
-                    <Col>
-                      <Button onClick={() => deleteCondition(index, idx)}>
-                        删除
-                      </Button>
-                    </Col>
-                  </Row>
-                );
-              })}
+              {item?.children?.map(
+                (childrenItem: Record<string, any>, childrenIndex: number) => {
+                  return (
+                    <Row
+                      gutter={10}
+                      align="middle"
+                      wrap={false}
+                      key={childrenIndex}
+                      style={{ marginBottom: '10px' }}
+                    >
+                      <Col>{childrenIndex + 1}</Col>
+                      <Col span={7}>
+                        {renderChildrenLeftNode(
+                          childrenItem,
+                          childrenIndex,
+                          index,
+                        )}
+                      </Col>
+                      <Col span={7}>
+                        {renderChildrenCenterNode(
+                          childrenItem,
+                          childrenIndex,
+                          index,
+                        )}
+                      </Col>
+                      <Col span={7}>
+                        {renderChildrenRightNode(
+                          childrenItem,
+                          childrenIndex,
+                          index,
+                        )}
+                      </Col>
+                      <Col>
+                        <DeleteOutlined
+                          onClick={() => deleteCondition(index, childrenIndex)}
+                        />
+                      </Col>
+                    </Row>
+                  );
+                },
+              )}
               <Button
                 type="dashed"
                 style={{
