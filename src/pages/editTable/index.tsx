@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Modal, Input } from 'antd';
-import EditTable from '@/components/EditTable';
+import { Button, Input, InputNumber, Modal } from 'antd';
+import EditTable, { RenderColumnsProps } from '@/components/EditTable';
 import { cloneDeep } from 'lodash';
 import styles from './index.less';
 
@@ -85,12 +85,91 @@ export default () => {
     fetchTableData();
   }, []);
 
+  const renderColumns: RenderColumnsProps = (
+    handleValueChange,
+    handleDeleteRow,
+  ) => [
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+      width: '20%',
+      render: (text: any, record: Record<string, any>, index: number) => {
+        return (
+          <>
+            <Input
+              style={{ width: '100%' }}
+              value={text}
+              onChange={({ target: { value } }) =>
+                handleValueChange(value, 'name', index)
+              }
+            />
+            <>{record.nameError && Empty}</>
+          </>
+        );
+      },
+    },
+    {
+      title: 'Age',
+      dataIndex: 'age',
+      key: 'age',
+      width: '20%',
+      render: (text: any, record: Record<string, any>, index: number) => {
+        return (
+          <>
+            <Input
+              style={{ width: '100%' }}
+              value={text}
+              onChange={({ target: { value } }) =>
+                handleValueChange(value, 'age', index)
+              }
+            />
+            <>{record.ageError && Empty}</>
+          </>
+        );
+      },
+    },
+    {
+      title: 'Tags',
+      key: 'tags',
+      dataIndex: 'tags',
+      width: '10%',
+      render: (text: any, record: Record<string, any>, index: number) => {
+        return (
+          <>
+            <InputNumber
+              style={{ width: '100%' }}
+              value={text}
+              onChange={value => handleValueChange(value, 'tags', index)}
+            />
+            <>{record.tagsError && Empty}</>
+          </>
+        );
+      },
+    },
+    {
+      title: '操作',
+      key: 'action',
+      width: '20%',
+      render: (text: any, record: Record<string, any>, index: number) => {
+        return (
+          <Button
+            type="link"
+            style={{ marginBottom: '10px' }}
+            onClick={() => handleDeleteRow(index)}
+          >
+            删除
+          </Button>
+        );
+      },
+    },
+  ];
+
   return (
     <>
       <EditTable
-        Empty={Empty}
         data={data}
-        loading={loading}
+        renderColumns={renderColumns}
         saveData={saveData}
       />
       <div style={{ textAlign: 'center' }}>
