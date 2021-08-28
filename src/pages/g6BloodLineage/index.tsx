@@ -1,44 +1,227 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import G6 from '@antv/g6';
 import { listObj } from './constant';
-import tooltip from './util/toolTips';
-import registerNode from './util/registerNode';
-import registerEdge from './util/registerEdge';
+import { calculationChildNum } from './util/index';
 
-const G6Tree = () => {
-  const [data, setData] = useState(listObj);
+const minWidth = 60;
 
-  const initG6 = (data: Record<string, any>) => {
-    registerNode();
-    registerEdge();
+const BaseConfig = {
+  nameFontSize: 12,
+  childCountWidth: 22,
+  itemPadding: 16,
+  nameMarginLeft: 4,
+  rootPadding: 18,
+};
 
-    const width = document?.getElementById(`container`)?.scrollWidth;
-    const height = document?.getElementById(`container`)?.scrollHeight || 600;
+calculationChildNum(listObj);
 
-    const graph = new G6.TreeGraph({
-      container: `container`,
+G6.registerNode('treeNode', {
+  draw: (cfg, group) => {
+    const { label, collapsed, sonNodeNum = 0 } = cfg;
+
+    console.log('sonNodeNum', sonNodeNum);
+
+    const {
+      childCountWidth,
+      itemPadding,
+      nameMarginLeft,
+      rootPadding,
+    } = BaseConfig;
+
+    let width = 0;
+    const height = 28;
+    const x = 0;
+    const y = -height / 2;
+
+    // 名称文本
+    const text = group.addShape('text', {
+      attrs: {
+        text: label,
+        x: x * 2,
+        y,
+        textAlign: 'left',
+        textBaseline: 'top',
+        fontFamily: 'PingFangSC-Regular',
+      },
+      cursor: 'pointer',
+      name: 'name-text-shape',
+    });
+    const textWidth = text.getBBox().width;
+    width = textWidth + itemPadding + nameMarginLeft;
+
+    width = width < minWidth ? minWidth : width;
+
+    const keyShapeAttrs = {
+      x,
+      y,
       width,
       height,
-      linkCenter: true,
-      // 内置节点
-      defaultNode: {
-        type: 'icon-node',
-        size: [130, 90], // 设置节点的宽和高
-        style: defaultNodeStyle,
-        labelCfg: defaultLabelCfg,
-      },
-      defaultEdge: {
-        type: 'flow-line',
-        style: defaultEdgeStyle,
-      },
-      nodeStateStyles: defaultStateStyles,
-      edgeStateStyles: defaultStateStyles,
-      layout: defaultLayout,
-      // tooltips 插件
-      plugins: [tooltip()],
+      radius: 4,
+      fill: '#e8f7ff',
+      stroke: '#e8f7ff',
+    };
+
+    const keyShape = group.addShape('rect', {
+      attrs: keyShapeAttrs,
+      name: 'root-key-shape-rect-shape',
     });
 
-    let newData = JSON.parse(JSON.stringify(data));
+    const mainX = x - 10;
+    const mainY = -height + 15;
+
+    group.addShape('rect', {
+      attrs: {
+        x: mainX,
+        y: mainY,
+        width: width + 12,
+        height,
+        radius: 6,
+        fill: '#e8f7ff',
+        cursor: 'pointer',
+      },
+      name: 'main-shape',
+    });
+
+    let nameColor = 'rgba(0, 0, 0, .65)';
+    // if (selected) {
+    //   nameColor = '#40A8FF';
+    // }
+
+    // 名称
+    group.addShape('text', {
+      attrs: {
+        text: `${label}`.slice(0, 3) + '...',
+        x: mainX + rootPadding,
+        y: 1,
+        textAlign: 'left',
+        textBaseline: 'middle',
+        fill: nameColor,
+        fontSize: 12,
+        fontFamily: 'PingFangSC-Regular',
+        cursor: 'pointer',
+      },
+      name: 'root-text-shape',
+    });
+
+    // 子类数量
+
+    const childCountHeight = 12;
+    const childCountX = width - childCountWidth;
+    const childCountY = -childCountHeight / 2;
+
+    group.addShape('rect', {
+      attrs: {
+        width: childCountWidth,
+        height: 12,
+        stroke: collapsed ? '#1890ff' : '#5CDBD3',
+        fill: collapsed ? '#fff' : '#E6FFFB',
+        x: childCountX,
+        y: childCountY,
+        radius: 6,
+        cursor: 'pointer',
+      },
+      name: 'child-count-rect-shape',
+    });
+    group.addShape('text', {
+      attrs: {
+        text: `${sonNodeNum}`,
+        fill: 'rgba(0, 0, 0, .65)',
+        x: childCountX + childCountWidth / 2,
+        y: childCountY + 12,
+        fontSize: 10,
+        width: childCountWidth,
+        textAlign: 'center',
+        cursor: 'pointer',
+      },
+      name: 'child-count-text-shape',
+    });
+
+    return keyShape;
+  },
+});
+
+const tooltip = new G6.Tooltip({
+  offsetX: 10,
+  offsetY: 20,
+  getContent(e) {
+    const outDiv = document.createElement('div');
+    outDiv.style.width = '180px';
+    outDiv.innerHTML = `
+        <h4>自定义tooltip</h4>
+        <ul>
+          <li>Label: ${e.item.getModel().label || e.item.getModel().id}</li>
+        </ul>`;
+    return outDiv;
+  },
+  itemTypes: ['node'],
+  trigger: 'click',
+  shouldBegin: evt => {
+    const { target, item } = evt;
+    const name = target.get('name');
+    if (name === 'child-count-text-shape' || name === 'child-count-rect-shape')
+      return false;
+
+    return true;
+  },
+});
+
+const width = 800;
+const height = 500;
+
+const G6BloodLineage = () => {
+  const warpRef = useRef(null);
+
+  useEffect(() => {
+    const graph = new G6.TreeGraph({
+      container: warpRef.current,
+      width,
+      height,
+      modes: {
+        default: ['drag-canvas', 'zoom-canvas'],
+      },
+      plugins: [tooltip],
+      defaultNode: {
+        type: 'treeNode',
+        anchorPoints: [
+          [0, 0.5],
+          [1, 0.5],
+        ],
+      },
+      defaultEdge: {
+        // type: 'smooth',
+      },
+      layout: {
+        type: 'compactBox',
+        direction: 'H',
+        getId: function getId(d) {
+          return d.id;
+        },
+        getHeight: function getHeight() {
+          return 16;
+        },
+        getWidth: function getWidth(d) {
+          const labelWidth = G6.Util.getTextSize(
+            d.label,
+            BaseConfig.nameFontSize,
+          )[0];
+          const width =
+            BaseConfig.itemPadding +
+            BaseConfig.nameMarginLeft +
+            labelWidth +
+            BaseConfig.rootPadding +
+            BaseConfig.childCountWidth;
+          return width;
+        },
+        getVGap: function getVGap() {
+          return 15;
+        },
+        getHGap: function getHGap() {
+          return 30;
+        },
+      },
+    });
+
+    let newData = JSON.parse(JSON.stringify(listObj));
 
     const getFirstFloorData = (data: Record<string, any>[]) => {
       data.forEach(item => {
@@ -56,91 +239,40 @@ const G6Tree = () => {
 
     getFirstFloorData([newData]);
 
-    graph.setAutoPaint(true);
-    graph.read(newData);
+    graph.data(newData);
     graph.render();
     graph.fitCenter(true);
-    graph.zoom(0.8); // 默认缩放图形大小
+    graph.zoom(1); // 默认缩放图形大小
 
-    const cloneData = JSON.parse(JSON.stringify(data));
+    const cloneData = JSON.parse(JSON.stringify(listObj));
 
     graph.on('node:click', evt => {
-      const { item } = evt;
-
+      const { target, item } = evt;
       const nodeModel = item?.getModel();
-
       const { id } = nodeModel;
+      const name = target.get('name');
 
       const gsixAa = graph.findDataById(id, cloneData);
 
-      if (nodeModel?.children?.length) {
-        nodeModel.children = [];
-      } else {
-        gsixAa?.children?.forEach(item => {
-          nodeModel.children?.push({ ...item, children: [] });
-        });
+      console.log('name', name);
+
+      if (
+        name === 'child-count-text-shape' ||
+        name === 'child-count-rect-shape'
+      ) {
+        if (nodeModel?.children?.length) {
+          nodeModel.children = [];
+          graph.updateChild(nodeModel, id);
+        } else {
+          gsixAa?.children?.forEach(item => {
+            nodeModel.children?.push({ ...item, children: [] });
+          });
+          graph.updateChild(nodeModel, id);
+        }
       }
-
-      graph.updateChild(nodeModel, id);
     });
-  };
-
-  useEffect(() => {
-    initG6(data);
   }, []);
-
-  return (
-    <>
-      <div id={`container`} />
-    </>
-  );
+  return <div ref={warpRef}></div>;
 };
 
-export default G6Tree;
-
-const defaultStateStyles = {
-  hover: {
-    stroke: '#1890ff',
-    lineWidth: 2,
-  },
-};
-
-const defaultNodeStyle = {
-  // fill: '#fff',
-  fill: 'red', // 背景颜色
-  stroke: '#5B8FF9', // 边框
-  radius: 2,
-};
-// 节点之间连线的样式
-const defaultEdgeStyle = {
-  stroke: '#5B8FF9',
-};
-const defaultLayout = {
-  type: 'compactBox',
-  direction: 'TB', // TB 是从上到下的展示节点
-  // 这个是不能去掉的，否则展开与折叠就不生效了。
-  getId: function getId(d) {
-    return d.id;
-  },
-  getHeight: function getHeight() {
-    // 节点之间高度的距离
-    return 45;
-  },
-  getWidth: function getWidth() {
-    // 节点之间宽度的距离
-    return 16;
-  },
-  getVGap: function getVGap() {
-    return 40;
-  },
-  getHGap: function getHGap() {
-    return 70;
-  },
-};
-const defaultLabelCfg = {
-  // 这个就是节点中间的字体颜色，因为都是绘制出来的所以我暂时先#fff相当于隐藏了
-  style: {
-    fill: 'rgb(0,0,0,0)',
-    fontSize: 12,
-  },
-};
+export default G6BloodLineage;

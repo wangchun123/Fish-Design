@@ -121,6 +121,7 @@ const G6Tree = () => {
           graph.updateChild(gsixModel, gsixModel.id);
           graph.setItemState(item22, 'collapsed', !nodeModel.collapsed);
         }
+        
       }
     });
   };
