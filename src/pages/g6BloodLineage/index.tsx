@@ -62,66 +62,26 @@ const G6Tree = () => {
     graph.fitCenter(true);
     graph.zoom(0.8); // 默认缩放图形大小
 
-    graph.on('node:mouseenter', evt => {
-      const { item } = evt;
-      graph.setItemState(item, 'hover', true);
-    });
-
-    graph.on('node:mouseleave', evt => {
-      const { item } = evt;
-      graph.setItemState(item, 'hover', false);
-    });
-
-    let cloneData = JSON.parse(JSON.stringify(data));
+    const cloneData = JSON.parse(JSON.stringify(data));
 
     graph.on('node:click', evt => {
-      const { target, item } = evt;
+      const { item } = evt;
 
-      console.log('evt',evt);
+      const nodeModel = item?.getModel();
 
-      const id = target.get('modelId');
-      
-      const item22 = graph.findById(id);
+      const { id } = nodeModel;
 
-      const nodeModel = item22 && item22.getModel();
+      const gsixAa = graph.findDataById(id, cloneData);
 
-      const name = target.get('name');
-      
-      if (name === 'collapse-icon') {
-        let gsixAa = graph.findDataById(
-          id,
-          JSON.parse(JSON.stringify(cloneData)),
-        );
-
-        if (JSON.stringify(nodeModel.children) !== '[]') {
-
-          gsixAa &&
-            gsixAa.children.forEach(item => {
-              nodeModel.children = nodeModel.children ? [] : null;
-            });
-          let gsixModel = JSON.parse(JSON.stringify(nodeModel));
-          graph.updateChild(gsixModel, gsixModel.id);
-          graph.setItemState(item22, 'collapsed', nodeModel.collapsed);
-
-        } else {
-            
-          if (!nodeModel.children) {
-            nodeModel.children = [];
-          }
-          gsixAa &&
-            gsixAa.children.forEach(item => {
-              nodeModel.children.push(item);
-            });
-          let gsixModel = nodeModel;
-          gsixModel.children.forEach((element, index) => {
-            if (element.children) {
-              element.children = element.children ? [] : null;
-            }
-          });
-          graph.updateChild(gsixModel, gsixModel.id);
-          graph.setItemState(item22, 'collapsed', !nodeModel.collapsed);
-        }
+      if (nodeModel?.children?.length) {
+        nodeModel.children = [];
+      } else {
+        gsixAa?.children?.forEach(item => {
+          nodeModel.children?.push({ ...item, children: [] });
+        });
       }
+
+      graph.updateChild(nodeModel, id);
     });
   };
 

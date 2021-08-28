@@ -77,27 +77,7 @@ const registerNode = () =>
             },
             name: 'title',
           });
-          // 图标的展示
-          cfg.children &&
-            group.addShape('marker', {
-              attrs: {
-                x: 1,
-                y: 45,
-                r: 8,
-                cursor: 'pointer',
-                // 就是设置折叠展开的样式，但是必须要设置stroke颜色，
-                // 否则 效果就是透明，误以为会没生效，当然x,y,r的定位也很重要
-                symbol:
-                  JSON.stringify(cfg.children) === '[]'
-                    ? G6.Marker.expand
-                    : G6.Marker.collapse,
-                stroke: '#666',
-                lineWidth: 1,
-                fill: '#fff',
-              },
-              name: 'collapse-icon',
-              modelId: cfg.id,
-            });
+         
         }
         return keyShape;
       },
