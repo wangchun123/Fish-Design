@@ -178,6 +178,7 @@ const G6BloodLineage = () => {
       layout: {
         type: 'compactBox',
         direction: 'H',
+        getSide: d => d?.data?.side,
         getId: function getId(d) {
           return d.id;
         },

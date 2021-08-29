@@ -12,6 +12,7 @@ export const listObj = {
           id: 'c1-1',
           label: '李五你好吗我还好啊你好不',
           name: '李五',
+          side: 'left',
           children: [
             {
               id: 'c1-1-1',
@@ -60,11 +61,13 @@ export const listObj = {
       id: 'c2',
       label: 'c2',
       name: '七八',
+      side: 'left',
     },
     {
       id: 'c3',
       label: 'c3',
       name: '七八',
+      side: 'right',
       children: [
         {
           id: 'c3-1',
