@@ -29,7 +29,7 @@ G6.registerNode('treeNode', {
     } = BaseConfig;
 
     let width = 0;
-    const height = 28;
+    const height = 40;
     const x = 0;
     const y = -height / 2;
 
@@ -54,11 +54,12 @@ G6.registerNode('treeNode', {
     const keyShapeAttrs = {
       x,
       y,
-      width,
+      width: width + 50,
       height,
       radius: 4,
       fill: '#e8f7ff',
       stroke: '#e8f7ff',
+      cursor: 'pointer',
     };
 
     const keyShape = group.addShape('rect', {
@@ -69,28 +70,12 @@ G6.registerNode('treeNode', {
     const mainX = x - 10;
     const mainY = -height + 15;
 
-    group.addShape('rect', {
-      attrs: {
-        x: mainX,
-        y: mainY,
-        width: width + 12,
-        height,
-        radius: 6,
-        fill: '#e8f7ff',
-        cursor: 'pointer',
-      },
-      name: 'main-shape',
-    });
-
     let nameColor = 'rgba(0, 0, 0, .65)';
-    // if (selected) {
-    //   nameColor = '#40A8FF';
-    // }
 
     // 名称
     group.addShape('text', {
       attrs: {
-        text: `${label}`.slice(0, 3) + '...',
+        text: label,
         x: mainX + rootPadding,
         y: 1,
         textAlign: 'left',
@@ -112,12 +97,12 @@ G6.registerNode('treeNode', {
     group.addShape('rect', {
       attrs: {
         width: childCountWidth,
-        height: 12,
+        height: 20,
         stroke: collapsed ? '#1890ff' : '#5CDBD3',
         fill: collapsed ? '#fff' : '#E6FFFB',
-        x: childCountX,
-        y: childCountY,
-        radius: 6,
+        x: childCountX + 48,
+        y: childCountY - 3,
+        radius: 10,
         cursor: 'pointer',
       },
       name: 'child-count-rect-shape',
@@ -126,7 +111,7 @@ G6.registerNode('treeNode', {
       attrs: {
         text: `${sonNodeNum}`,
         fill: 'rgba(0, 0, 0, .65)',
-        x: childCountX + childCountWidth / 2,
+        x: childCountX + childCountWidth / 2 + 48,
         y: childCountY + 12,
         fontSize: 10,
         width: childCountWidth,
@@ -140,6 +125,35 @@ G6.registerNode('treeNode', {
   },
 });
 
+G6.registerEdge('smooth', {
+  draw(cfg, group) {
+    const { startPoint, endPoint } = cfg;
+    const hgap = Math.abs(endPoint.x - startPoint.x);
+
+    const path = [
+      ['M', startPoint.x, startPoint.y],
+      [
+        'C',
+        startPoint.x + hgap / 4,
+        startPoint.y,
+        endPoint.x - hgap / 2,
+        endPoint.y,
+        endPoint.x,
+        endPoint.y,
+      ],
+    ];
+
+    const shape = group.addShape('path', {
+      attrs: {
+        stroke: '#AAB7C4',
+        path,
+      },
+      name: 'smooth-path-shape',
+    });
+    return shape;
+  },
+});
+
 const tooltip = new G6.Tooltip({
   offsetX: 10,
   offsetY: 20,
@@ -148,9 +162,9 @@ const tooltip = new G6.Tooltip({
     outDiv.style.width = '180px';
     outDiv.innerHTML = `
         <h4>自定义tooltip</h4>
-        <ul>
-          <li>Label: ${e.item.getModel().label || e.item.getModel().id}</li>
-        </ul>`;
+        <div>
+          <div>Label: ${e.item.getModel().label || e.item.getModel().id}</div>
+        </div>`;
     return outDiv;
   },
   itemTypes: ['node'],
@@ -188,7 +202,7 @@ const G6BloodLineage = () => {
         ],
       },
       defaultEdge: {
-        // type: 'smooth',
+        type: 'smooth',
       },
       layout: {
         type: 'compactBox',
