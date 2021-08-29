@@ -13,13 +13,20 @@ const BaseConfig = {
   rootPadding: 18,
 };
 
+const backGroundColor = {
+  type1: 'red',
+  type2: 'yellow',
+  type3: 'yellowgreen',
+  type4: 'green',
+};
+
 calculationChildNum(listObj);
 
 G6.registerNode('treeNode', {
   draw: (cfg, group) => {
-    const { label, collapsed, sonNodeNum = 0 } = cfg;
+    const { label, collapsed, sonNodeNum = 0, customType } = cfg;
 
-    console.log('sonNodeNum', sonNodeNum);
+    console.log('cfg', cfg);
 
     const {
       childCountWidth,
@@ -57,8 +64,8 @@ G6.registerNode('treeNode', {
       width: width + 50,
       height,
       radius: 4,
-      fill: '#e8f7ff',
-      stroke: '#e8f7ff',
+      fill: backGroundColor[customType],
+      stroke: backGroundColor[customType],
       cursor: 'pointer',
     };
 
