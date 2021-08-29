@@ -142,6 +142,7 @@ const tooltip = new G6.Tooltip({
         <h4>自定义tooltip</h4>
         <div>
           <div>Label: ${e.item.getModel().label || e.item.getModel().id}</div>
+          <a href='https://haokan.baidu.com/?sfrom=baidu-top' target='brank'>跳转</a>
         </div>`;
     return outDiv;
   },
