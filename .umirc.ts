@@ -24,6 +24,7 @@ export default defineConfig({
         { path: '/editTable', component: 'editTable', title: 'editTable' },
         { path: '/g6Tree', component: 'g6Tree', title: 'g6Tree' },
         { path: '/g6BloodLineage', component: 'g6BloodLineage', title: 'g6BloodLineage' },
+        { path: '/selectSearch', component: 'selectSearch', title: 'selectSearch' },
       ],
     },
   ],

@@ -10,4 +10,5 @@ export const MENU_DATA = [
   { url: '/editTable', title: 'editTable', key: '9' },
   { url: '/g6Tree', title: 'g6Tree', key: '10' },
   { url: '/g6BloodLineage', title: 'g6BloodLineage', key: '11' },
+  { url: '/selectSearch', title: 'selectSearch', key: '12' },
 ];
