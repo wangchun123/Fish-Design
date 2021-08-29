@@ -125,35 +125,6 @@ G6.registerNode('treeNode', {
   },
 });
 
-G6.registerEdge('smooth', {
-  draw(cfg, group) {
-    const { startPoint, endPoint } = cfg;
-    const hgap = Math.abs(endPoint.x - startPoint.x);
-
-    const path = [
-      ['M', startPoint.x, startPoint.y],
-      [
-        'C',
-        startPoint.x + hgap / 4,
-        startPoint.y,
-        endPoint.x - hgap / 2,
-        endPoint.y,
-        endPoint.x,
-        endPoint.y,
-      ],
-    ];
-
-    const shape = group.addShape('path', {
-      attrs: {
-        stroke: '#AAB7C4',
-        path,
-      },
-      name: 'smooth-path-shape',
-    });
-    return shape;
-  },
-});
-
 const tooltip = new G6.Tooltip({
   offsetX: 10,
   offsetY: 20,
@@ -202,7 +173,7 @@ const G6BloodLineage = () => {
         ],
       },
       defaultEdge: {
-        type: 'smooth',
+        type: 'cubic-horizontal',
       },
       layout: {
         type: 'compactBox',
