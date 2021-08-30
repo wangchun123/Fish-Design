@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Button, Input, InputNumber, Modal, Form } from 'antd';
+import { Button, Input, InputNumber, Modal, Form, Select } from 'antd';
 import EditTable, { RenderColumnsProps } from '@/components/EditTable';
 import { pick } from 'lodash';
 
@@ -84,12 +84,11 @@ export default () => {
       rules: () => [{ required: true, message: 'Please input your username!' }],
       render: (text: any, record: Record<string, any>, index: number) => {
         return (
-          <Input
+          <Select
             style={{ width: '100%' }}
             value={text}
-            onChange={({ target: { value } }) =>
-              handleValueChange(value, 'age', index)
-            }
+            onChange={value => handleValueChange(value, 'age', index)}
+            options={[{ label: 'tets', value: 'tets' }]}
           />
         );
       },
@@ -99,6 +98,14 @@ export default () => {
       key: 'tags',
       dataIndex: 'tags',
       width: '10%',
+      rules: () => [
+        {
+          validator: (_, value) =>
+            value > 0
+              ? Promise.resolve()
+              : Promise.reject(new Error('值不能小于0')),
+        },
+      ],
       render: (text: any, record: Record<string, any>, index: number) => {
         return (
           <InputNumber
