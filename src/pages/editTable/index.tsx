@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Button, Input, InputNumber, Modal, Form } from 'antd';
 import EditTable, { RenderColumnsProps } from '@/components/EditTable';
+import { pick } from 'lodash';
 
 const list = [
   {
@@ -28,33 +29,25 @@ export default () => {
 
   const handelSubmite = () => {
     form.validateFields().then(res => {
-      console.log('res', res);
-    });
+      //   console.log('res', res);
 
-    // Modal.success({
-    //   title: '获取数据',
-    //   content: (
-    //     <Input.TextArea
-    //       value={JSON.stringify(data, null, 10)}
-    //       autoSize={{ minRows: 20, maxRows: 10 }}
-    //     />
-    //   ),
-    //   bodyStyle: { height: '500px' },
-    //   width: '100vw',
-    // });
+      Modal.success({
+        title: '获取数据',
+        content: (
+          <Input.TextArea
+            value={JSON.stringify({ ...pick(res, ['tableId']) }, null, 10)}
+            autoSize={{ minRows: 20, maxRows: 10 }}
+          />
+        ),
+        bodyStyle: { height: '500px' },
+        width: '100vw',
+      });
+    });
   };
 
   useEffect(() => {
-    const obj = {};
-    list.forEach((item, index) => {
-      obj[`name${index}`] = item.name;
-      obj[`age${index}`] = item.age;
-      obj[`tags${index}`] = item.tags;
-    });
-    
     form.setFieldsValue({
       tableId: list,
-      ...obj,
     });
   }, []);
 
@@ -67,20 +60,19 @@ export default () => {
       dataIndex: 'name',
       key: 'name',
       width: '20%',
+      rules: (record: Record<string, any>) => {
+        // console.log('record', record);
+        return [{ required: true, message: 'Please input your username!' }];
+      },
       render: (text: any, record: Record<string, any>, index: number) => {
         return (
-          <Form.Item
-            name={`name${index}`}
-            rules={[{ required: true, message: 'Please input your username!' }]}
-          >
-            <Input
-              style={{ width: '100%' }}
-              value={text}
-              onChange={({ target: { value } }) =>
-                handleValueChange(value, 'name', index)
-              }
-            />
-          </Form.Item>
+          <Input
+            style={{ width: '100%' }}
+            value={text}
+            onChange={({ target: { value } }) =>
+              handleValueChange(value, 'name', index)
+            }
+          />
         );
       },
     },
@@ -89,20 +81,16 @@ export default () => {
       dataIndex: 'age',
       key: 'age',
       width: '20%',
+      rules: () => [{ required: true, message: 'Please input your username!' }],
       render: (text: any, record: Record<string, any>, index: number) => {
         return (
-          <Form.Item
-            name={`age${index}`}
-            rules={[{ required: true, message: 'Please input your username!' }]}
-          >
-            <Input
-              style={{ width: '100%' }}
-              value={text}
-              onChange={({ target: { value } }) =>
-                handleValueChange(value, 'age', index)
-              }
-            />
-          </Form.Item>
+          <Input
+            style={{ width: '100%' }}
+            value={text}
+            onChange={({ target: { value } }) =>
+              handleValueChange(value, 'age', index)
+            }
+          />
         );
       },
     },
@@ -113,16 +101,11 @@ export default () => {
       width: '10%',
       render: (text: any, record: Record<string, any>, index: number) => {
         return (
-          <Form.Item
-            name={`tags${index}`}
-            rules={[{ required: true, message: 'Please input your username!' }]}
-          >
-            <InputNumber
-              style={{ width: '100%' }}
-              value={text}
-              onChange={value => handleValueChange(value, 'tags', index)}
-            />
-          </Form.Item>
+          <InputNumber
+            style={{ width: '100%' }}
+            value={text}
+            onChange={value => handleValueChange(value, 'tags', index)}
+          />
         );
       },
     },
@@ -147,7 +130,7 @@ export default () => {
   return (
     <Form form={form}>
       <Form.Item name="tableId">
-        <EditTable renderColumns={renderColumns} />
+        <EditTable form={form} renderColumns={renderColumns} />
       </Form.Item>
       <div style={{ textAlign: 'center' }}>
         <Button type="primary" onClick={() => handelSubmite()}>
