@@ -3,9 +3,9 @@ import { Table, Button } from 'antd';
 import { cloneDeep } from 'lodash';
 
 export interface EditTableProps {
-  data: Record<string, any>[];
+  value?: Record<string, any>[];
   renderColumns: RenderColumnsProps;
-  saveData: (data: Record<string, any>[]) => void;
+  onChange?: (data: Record<string, any>[]) => void;
 }
 
 export type RenderColumnsProps = (
@@ -15,8 +15,8 @@ export type RenderColumnsProps = (
 
 const EditTable: React.FC<EditTableProps> = ({
   renderColumns,
-  data,
-  saveData,
+  value,
+  onChange,
 }) => {
   const [dataSource, setDataSource] = useState<Record<string, any>[]>([]);
 
@@ -30,19 +30,18 @@ const EditTable: React.FC<EditTableProps> = ({
     return obj;
   }, [renderColumns]);
 
-  const handleValueChange = (value: any, dataIndex: string, index: number) => {
+  const handleValueChange = (val: any, dataIndex: string, index: number) => {
     const newData = cloneDeep(dataSource);
-    newData[index][dataIndex] = value;
-    newData[index][`${dataIndex}Error`] = false;
+    newData[index][dataIndex] = val;
     setDataSource(newData);
-    saveData?.(newData);
+    onChange?.(newData);
   };
 
   const handleDeleteRow = (index: number) => {
     const newData = cloneDeep(dataSource);
     newData.splice(index, 1);
     setDataSource(newData);
-    saveData?.(newData);
+    onChange?.(newData);
   };
 
   const handleAddRow = () => {
@@ -50,12 +49,12 @@ const EditTable: React.FC<EditTableProps> = ({
     const item = { key: newData.length + 1, ...RowKeys };
     newData.push(item);
     setDataSource(newData);
-    saveData?.(newData);
+    onChange?.(newData);
   };
 
   useEffect(() => {
-    setDataSource(data || []);
-  }, [data]);
+    setDataSource(value || []);
+  }, [value]);
 
   return (
     <>

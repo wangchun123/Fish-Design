@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Input, InputNumber, Modal } from 'antd';
+import React, { useEffect } from 'react';
+import { Button, Input, InputNumber, Modal, Form } from 'antd';
 import EditTable, { RenderColumnsProps } from '@/components/EditTable';
-import { cloneDeep } from 'lodash';
-import styles from './index.less';
 
 const list = [
   {
@@ -25,64 +23,39 @@ const list = [
   },
 ];
 
-const Empty = <div className={styles.error}>必填</div>;
-
 export default () => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [form] = Form.useForm();
 
   const handelSubmite = () => {
-    const newData = cloneDeep(data);
-    if (checkError(newData)) return;
-    Modal.success({
-      title: '获取数据',
-      content: (
-        <Input.TextArea
-          value={JSON.stringify(data, null, 10)}
-          autoSize={{ minRows: 20, maxRows: 10 }}
-        />
-      ),
-      bodyStyle: { height: '500px' },
-      width: '100vw',
+    form.validateFields().then(res => {
+      console.log('res', res);
     });
-  };
 
-  const checkError = newData => {
-    let falg = false;
-
-    const check = (mode, item) => {
-      item[mode] = true;
-      falg = true;
-    };
-
-    newData.length > 0 &&
-      newData.forEach(item => {
-        const { name, age, tags } = item;
-        if (!name) check('nameError', item);
-        if (!age) check('ageError', item);
-        if (!tags) check('tagsError', item);
-      });
-
-    if (falg) setData(newData); //有错误，回填数据显示错误
-
-    return falg;
-  };
-
-  const fetchTableData = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setData(list);
-      setLoading(false);
-    }, 100);
-  };
-
-  const saveData = va => {
-    const newData = cloneDeep(va);
-    setData(newData);
+    // Modal.success({
+    //   title: '获取数据',
+    //   content: (
+    //     <Input.TextArea
+    //       value={JSON.stringify(data, null, 10)}
+    //       autoSize={{ minRows: 20, maxRows: 10 }}
+    //     />
+    //   ),
+    //   bodyStyle: { height: '500px' },
+    //   width: '100vw',
+    // });
   };
 
   useEffect(() => {
-    fetchTableData();
+    const obj = {};
+    list.forEach((item, index) => {
+      obj[`name${index}`] = item.name;
+      obj[`age${index}`] = item.age;
+      obj[`tags${index}`] = item.tags;
+    });
+    
+    form.setFieldsValue({
+      tableId: list,
+      ...obj,
+    });
   }, []);
 
   const renderColumns: RenderColumnsProps = (
@@ -96,7 +69,10 @@ export default () => {
       width: '20%',
       render: (text: any, record: Record<string, any>, index: number) => {
         return (
-          <>
+          <Form.Item
+            name={`name${index}`}
+            rules={[{ required: true, message: 'Please input your username!' }]}
+          >
             <Input
               style={{ width: '100%' }}
               value={text}
@@ -104,8 +80,7 @@ export default () => {
                 handleValueChange(value, 'name', index)
               }
             />
-            <>{record.nameError && Empty}</>
-          </>
+          </Form.Item>
         );
       },
     },
@@ -116,7 +91,10 @@ export default () => {
       width: '20%',
       render: (text: any, record: Record<string, any>, index: number) => {
         return (
-          <>
+          <Form.Item
+            name={`age${index}`}
+            rules={[{ required: true, message: 'Please input your username!' }]}
+          >
             <Input
               style={{ width: '100%' }}
               value={text}
@@ -124,8 +102,7 @@ export default () => {
                 handleValueChange(value, 'age', index)
               }
             />
-            <>{record.ageError && Empty}</>
-          </>
+          </Form.Item>
         );
       },
     },
@@ -136,14 +113,16 @@ export default () => {
       width: '10%',
       render: (text: any, record: Record<string, any>, index: number) => {
         return (
-          <>
+          <Form.Item
+            name={`tags${index}`}
+            rules={[{ required: true, message: 'Please input your username!' }]}
+          >
             <InputNumber
               style={{ width: '100%' }}
               value={text}
               onChange={value => handleValueChange(value, 'tags', index)}
             />
-            <>{record.tagsError && Empty}</>
-          </>
+          </Form.Item>
         );
       },
     },
@@ -166,17 +145,15 @@ export default () => {
   ];
 
   return (
-    <>
-      <EditTable
-        data={data}
-        renderColumns={renderColumns}
-        saveData={saveData}
-      />
+    <Form form={form}>
+      <Form.Item name="tableId">
+        <EditTable renderColumns={renderColumns} />
+      </Form.Item>
       <div style={{ textAlign: 'center' }}>
         <Button type="primary" onClick={() => handelSubmite()}>
           提交
         </Button>
       </div>
-    </>
+    </Form>
   );
 };
