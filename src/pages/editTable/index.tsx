@@ -35,7 +35,7 @@ export default () => {
         title: '获取数据',
         content: (
           <Input.TextArea
-            value={JSON.stringify({ ...pick(res, ['tableId']) }, null, 10)}
+            value={JSON.stringify({ ...pick(res, ['tableId1']) }, null, 10)}
             autoSize={{ minRows: 20, maxRows: 10 }}
           />
         ),
@@ -47,7 +47,7 @@ export default () => {
 
   useEffect(() => {
     form.setFieldsValue({
-      tableId: list,
+      tableId1: list,
     });
   }, []);
 
@@ -61,7 +61,6 @@ export default () => {
       key: 'name',
       width: '20%',
       rules: (record: Record<string, any>) => {
-        // console.log('record', record);
         return [{ required: true, message: 'Please input your username!' }];
       },
       render: (text: any, record: Record<string, any>, index: number) => {
@@ -135,9 +134,22 @@ export default () => {
   ];
 
   return (
-    <Form form={form}>
-      <Form.Item name="tableId">
-        <EditTable form={form} renderColumns={renderColumns} />
+    <Form form={form} layout='vertical'>
+      <Form.Item
+        label="测试一"
+        name="tableId1"
+        rules={[{ required: true, message: '不能为空' }]}
+      >
+        <EditTable
+          form={form}
+          renderColumns={renderColumns}
+          readOnly={true}
+          differNodeKey="tableId1"
+          addBtnText='新增你妹'
+        />
+      </Form.Item>
+      <Form.Item name="tableId2" label="测试二">
+        <EditTable form={form} renderColumns={renderColumns} readOnly={false} />
       </Form.Item>
       <div style={{ textAlign: 'center' }}>
         <Button type="primary" onClick={() => handelSubmite()}>

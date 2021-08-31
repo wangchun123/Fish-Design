@@ -8,6 +8,10 @@ export interface EditTableProps {
   renderColumns: RenderColumnsProps;
   onChange?: (data: Record<string, any>[]) => void;
   form: FormInstance;
+  readOnly?:boolean;
+  differNodeKey?:string;
+  isShowAddBtn?:boolean;
+  addBtnText?:string;
 }
 
 export type RenderColumnsProps = (
@@ -19,7 +23,11 @@ const EditTable: React.FC<EditTableProps> = ({
   renderColumns,
   value,
   onChange,
-  form
+  form,
+  readOnly=false,
+  differNodeKey='',
+  isShowAddBtn=true,
+  addBtnText='新增'
 }) => {
   const [dataSource, setDataSource] = useState<Record<string, any>[]>([]);
 
@@ -60,14 +68,15 @@ const EditTable: React.FC<EditTableProps> = ({
       (item: Record<string, any>) => {
         return {
           ...item,
-          render: (text: any, record: Record<string, any>, index: number) => (
-            <Form.Item
-              name={`${item.dataIndex}${index}`}
+          render: (text: any, record: Record<string, any>, index: number) => {
+              const nodeObject:Record<string, any>=item?.render?.(text, record, index);
+              return  <Form.Item
+              name={`${differNodeKey}${item.dataIndex}${index}`}
               rules={item?.rules?.(record) ? item.rules(record) : []}
             >
-              {item?.render?.(text, record, index)}
+              {{...nodeObject,props:{disabled:readOnly,...nodeObject.props}}}
             </Form.Item>
-          ),
+          }
         };
       },
     );
@@ -83,7 +92,7 @@ const EditTable: React.FC<EditTableProps> = ({
         value.forEach((item, index) => {
             const keys=Object.keys(item)
             keys.forEach(keysItem=>{
-                obj[`${keysItem}${index}`]=item[keysItem]
+                obj[`${differNodeKey}${keysItem}${index}`]=item[keysItem]
             })
         });
 
@@ -96,19 +105,25 @@ const EditTable: React.FC<EditTableProps> = ({
 
   return (
     <>
+    {dataSource?.length?
       <Table
         columns={renderTableColumns()}
         dataSource={dataSource}
         pagination={false}
       />
+    :null}
+
+    {isShowAddBtn?
       <Button
         type="dashed"
         onClick={() => handleAddRow()}
         block
         style={{ marginTop: '10px' }}
+        disabled={readOnly}
       >
-        新增
+        {addBtnText}
       </Button>
+    :null}
     </>
   );
 };
