@@ -20,6 +20,14 @@ export type RenderColumnsProps = (
 
 const isObject=(val:any)=> typeof val ==='object';
 
+const tipRenderErrorMessage=(obj:Record<string, any>)=>{
+    const virtualDomObj=obj?.props;
+
+    if(isValidElement(virtualDomObj?.children)){
+        console.error('Warning: render function in Columns ,Do not wrap elements in the outermost layer')
+    }
+}
+
 const EditTable: React.FC<EditTableProps> = ({
   renderColumns,
   value,
@@ -71,6 +79,7 @@ const EditTable: React.FC<EditTableProps> = ({
           ...item,
           render: (text: any, record: Record<string, any>, index: number) => {
               const nodeObject:Record<string, any>=item?.render?.(text, record, index);
+              tipRenderErrorMessage(nodeObject);
               return isValidElement(nodeObject)? <Form.Item
               name={`${differNodeKey}${item.dataIndex}${index}`}
               rules={item?.rules?.(record) ? item.rules(record) : []}
