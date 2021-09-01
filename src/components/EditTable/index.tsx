@@ -1,4 +1,4 @@
-import React, { useState, useEffect, memo, useMemo } from 'react';
+import React, { useState, useEffect, memo, useMemo ,isValidElement} from 'react';
 import { Table, Button, Form } from 'antd';
 import type { FormInstance } from 'antd/lib/form/Form';
 import { cloneDeep } from 'lodash';
@@ -71,11 +71,11 @@ const EditTable: React.FC<EditTableProps> = ({
           ...item,
           render: (text: any, record: Record<string, any>, index: number) => {
               const nodeObject:Record<string, any>=item?.render?.(text, record, index);
-              return  <Form.Item
+              return isValidElement(nodeObject)? <Form.Item
               name={`${differNodeKey}${item.dataIndex}${index}`}
               rules={item?.rules?.(record) ? item.rules(record) : []}
             >
-              {isObject(nodeObject)?{...nodeObject,
+              {{...nodeObject,
                 props:{
                     disabled:readOnly,
                     ...nodeObject.props,
@@ -95,8 +95,8 @@ const EditTable: React.FC<EditTableProps> = ({
 
                         handleValueChange(nodeChangeValue,item.dataIndex,index)
                     }
-                    }}:nodeObject}
-            </Form.Item>
+                    }}}
+            </Form.Item>:<Form.Item>{nodeObject}</Form.Item>
           }
         };
       },
