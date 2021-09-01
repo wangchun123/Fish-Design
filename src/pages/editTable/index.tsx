@@ -27,15 +27,14 @@ const list = [
 export default () => {
   const [form] = Form.useForm();
 
+  /**提交数据 */
   const handelSubmite = () => {
     form.validateFields().then(res => {
-      //   console.log('res', res);
-
       Modal.success({
         title: '获取数据',
         content: (
           <Input.TextArea
-            value={JSON.stringify({ ...pick(res, ['tableId1']) }, null, 10)}
+            value={JSON.stringify({ ...pick(res, ['tableId1','tableId2']) }, null, 10)}
             autoSize={{ minRows: 20, maxRows: 10 }}
           />
         ),
@@ -45,16 +44,16 @@ export default () => {
     });
   };
 
+  /**回填数据 */
   useEffect(() => {
     form.setFieldsValue({
-      tableId1: list,
+      tableId2: list,
     });
   }, []);
 
   const renderColumns: RenderColumnsProps = handleDeleteRow => [
     {
       title: '序号',
-      dataIndex: 'key',
       key: 'keys',
       width: '5%',
       render: (text: any, record: Record<string, any>, index: number) =>
