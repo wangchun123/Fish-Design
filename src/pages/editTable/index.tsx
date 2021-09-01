@@ -51,10 +51,15 @@ export default () => {
     });
   }, []);
 
-  const renderColumns: RenderColumnsProps = (
-    handleValueChange,
-    handleDeleteRow,
-  ) => [
+  const renderColumns: RenderColumnsProps = handleDeleteRow => [
+    {
+      title: '序号',
+      dataIndex: 'key',
+      key: 'keys',
+      width: '5%',
+      render: (text: any, record: Record<string, any>, index: number) =>
+        index + 1,
+    },
     {
       title: 'Name',
       dataIndex: 'name',
@@ -64,15 +69,7 @@ export default () => {
         return [{ required: true, message: 'Please input your username!' }];
       },
       render: (text: any, record: Record<string, any>, index: number) => {
-        return (
-          <Input
-            style={{ width: '100%' }}
-            value={text}
-            onChange={({ target: { value } }) =>
-              handleValueChange(value, 'name', index)
-            }
-          />
-        );
+        return <Input style={{ width: '100%' }} />;
       },
     },
     {
@@ -85,8 +82,6 @@ export default () => {
         return (
           <Select
             style={{ width: '100%' }}
-            value={text}
-            onChange={value => handleValueChange(value, 'age', index)}
             options={[{ label: 'tets', value: 'tets' }]}
           />
         );
@@ -106,13 +101,7 @@ export default () => {
         },
       ],
       render: (text: any, record: Record<string, any>, index: number) => {
-        return (
-          <InputNumber
-            style={{ width: '100%' }}
-            value={text}
-            onChange={value => handleValueChange(value, 'tags', index)}
-          />
-        );
+        return <InputNumber style={{ width: '100%' }} />;
       },
     },
     {
@@ -134,7 +123,7 @@ export default () => {
   ];
 
   return (
-    <Form form={form} layout='vertical'>
+    <Form form={form} layout="vertical">
       <Form.Item
         label="测试一"
         name="tableId1"
@@ -143,9 +132,9 @@ export default () => {
         <EditTable
           form={form}
           renderColumns={renderColumns}
-          readOnly={true}
+          //   readOnly={true}
           differNodeKey="tableId1"
-          addBtnText='新增你妹'
+          addBtnText="新增你妹"
         />
       </Form.Item>
       <Form.Item name="tableId2" label="测试二">

@@ -15,9 +15,10 @@ export interface EditTableProps {
 }
 
 export type RenderColumnsProps = (
-  handleValueChange: (value: any, dataIndex: string, index: number) => void,
   handleDeleteRow: (index: number) => void,
 ) => any;
+
+const isObject=(val:any)=> typeof val ==='object';
 
 const EditTable: React.FC<EditTableProps> = ({
   renderColumns,
@@ -31,11 +32,11 @@ const EditTable: React.FC<EditTableProps> = ({
 }) => {
   const [dataSource, setDataSource] = useState<Record<string, any>[]>([]);
 
-  const RowKeys = useMemo(() => {
+  const rowKeys = useMemo(() => {
     const obj: Record<string, any> = {};
-    renderColumns?.(handleValueChange, handleDeleteRow)?.forEach(
+    renderColumns?.( handleDeleteRow)?.forEach(
       (item: Record<string, any>) => {
-        if (item?.dataIndex) obj[item?.dataIndex] = '';
+        if (item?.dataIndex) obj[item?.dataIndex] = undefined;
       },
     );
     return obj;
@@ -57,14 +58,14 @@ const EditTable: React.FC<EditTableProps> = ({
 
   const handleAddRow = () => {
     const newData = cloneDeep(dataSource);
-    const item = { key: newData.length + 1, ...RowKeys };
+    const item = { key: newData.length + 1, ...rowKeys };
     newData.push(item);
     setDataSource(newData);
     onChange?.(newData);
   };
 
   const renderTableColumns = () => {
-    return renderColumns?.(handleValueChange, handleDeleteRow)?.map(
+    return renderColumns?.( handleDeleteRow)?.map(
       (item: Record<string, any>) => {
         return {
           ...item,
@@ -74,7 +75,27 @@ const EditTable: React.FC<EditTableProps> = ({
               name={`${differNodeKey}${item.dataIndex}${index}`}
               rules={item?.rules?.(record) ? item.rules(record) : []}
             >
-              {{...nodeObject,props:{disabled:readOnly,...nodeObject.props}}}
+              {isObject(nodeObject)?{...nodeObject,
+                props:{
+                    disabled:readOnly,
+                    ...nodeObject.props,
+                    value:text,
+                    onChange:(nodeValue:any)=>{
+                        let nodeChangeValue=null;
+
+                        if(isObject(nodeValue)){
+                            if(nodeValue?.target){
+                                nodeChangeValue=nodeValue?.target?.value
+                            }else{
+                                nodeChangeValue=nodeValue 
+                            }
+                        }else{
+                            nodeChangeValue=nodeValue
+                        }
+
+                        handleValueChange(nodeChangeValue,item.dataIndex,index)
+                    }
+                    }}:nodeObject}
             </Form.Item>
           }
         };
