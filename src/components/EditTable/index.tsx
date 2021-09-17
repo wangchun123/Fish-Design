@@ -103,6 +103,7 @@ const EditTable: React.FC<EditTableProps> = ({
                         }
 
                         handleValueChange(nodeChangeValue,item.dataIndex,index)
+                        nodeObject?.props?.onChange?.(nodeValue)
                     }
                     }}}
             </Form.Item>:<Form.Item>{nodeObject}</Form.Item>
