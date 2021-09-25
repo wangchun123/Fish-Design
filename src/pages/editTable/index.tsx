@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { Button, Input, InputNumber, Modal, Form, Select } from 'antd';
 import EditTable, { RenderColumnsProps } from '@/components/EditTable';
+import CustomInput from './customInput';
+
 import { pick } from 'lodash';
 
 const list = [
@@ -34,7 +36,11 @@ export default () => {
         title: '获取数据',
         content: (
           <Input.TextArea
-            value={JSON.stringify({ ...pick(res, ['tableId1','tableId2']) }, null, 10)}
+            value={JSON.stringify(
+              { ...pick(res, ['tableId1', 'tableId2']) },
+              null,
+              10,
+            )}
             autoSize={{ minRows: 20, maxRows: 10 }}
           />
         ),
@@ -81,7 +87,10 @@ export default () => {
         return (
           <Select
             style={{ width: '100%' }}
-            options={[{ label: 'tets', value: 'tets' }]}
+            options={[
+              { label: 'tets1', value: '1' },
+              { label: 'tets2', value: '2' },
+            ]}
           />
         );
       },
@@ -90,17 +99,27 @@ export default () => {
       title: 'Tags',
       key: 'tags',
       dataIndex: 'tags',
-      width: '10%',
+      width: '20%',
       rules: () => [
         {
-          validator: (_, value) =>
-            value > 0
-              ? Promise.resolve()
-              : Promise.reject(new Error('值不能小于0')),
+          validator: (_, value: string) => {
+            if (value === '') {
+              return Promise.resolve();
+            } else if (value) {
+              return Promise.resolve();
+            }
+
+            return Promise.reject(new Error(' '));
+          },
         },
       ],
       render: (text: any, record: Record<string, any>, index: number) => {
-        return <InputNumber style={{ width: '100%' }} />;
+        const { age } = record;
+        if (age === '1') {
+          return <CustomInput defaultValue="" placeholder="默认为空字符串" />;
+        }
+
+        return <CustomInput defaultValue={undefined} placeholder="请填写" />;
       },
     },
     {
