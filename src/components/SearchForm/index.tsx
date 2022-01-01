@@ -33,6 +33,8 @@ interface SearchFormProps {
   btnsAlign?: 'start' | 'end';
   formLayout?: 'horizontal' | 'vertical';
   isShowBtns?: boolean;
+  searchBtnText?: React.ReactNode;
+  resetBtnText?: React.ReactNode;
 }
 
 const SearchForm: FC<SearchFormProps> = ({
@@ -43,6 +45,8 @@ const SearchForm: FC<SearchFormProps> = ({
   btnsAlign = 'start',
   formLayout = 'vertical',
   isShowBtns = true,
+  searchBtnText = '查询',
+  resetBtnText = '重置',
 }) => {
   const [form] = Form.useForm();
 
@@ -163,10 +167,14 @@ const SearchForm: FC<SearchFormProps> = ({
             {isShowBtns && (
               <Row gutter={20} justify={btnsAlign}>
                 <Col>
-                  <Button onClick={() => handleFormSubmit()}>查询</Button>
+                  <Button onClick={() => handleFormSubmit()}>
+                    {searchBtnText}
+                  </Button>
                 </Col>
                 <Col>
-                  <Button onClick={() => handleFormRest()}>重置</Button>
+                  <Button onClick={() => handleFormRest()}>
+                    {resetBtnText}
+                  </Button>
                 </Col>
               </Row>
             )}
