@@ -1,4 +1,7 @@
 import React, { FC, useEffect } from 'react';
+import qs from 'qs';
+import { useHistory } from 'react-router-dom';
+
 import {
   Button,
   Row,
@@ -35,6 +38,7 @@ interface SearchFormProps {
   isShowBtns?: boolean;
   searchBtnText?: React.ReactNode;
   resetBtnText?: React.ReactNode;
+  isNeedMapParamToUrl?: boolean;
 }
 
 const SearchForm: FC<SearchFormProps> = ({
@@ -47,12 +51,22 @@ const SearchForm: FC<SearchFormProps> = ({
   isShowBtns = true,
   searchBtnText = '查询',
   resetBtnText = '重置',
+  isNeedMapParamToUrl = false,
 }) => {
   const [form] = Form.useForm();
+  const history = useHistory();
 
   const handleFormSubmit = () => {
     form.validateFields().then(formValues => {
       formSubmit?.(formValues);
+
+      isNeedMapParamToUrl &&
+        history.push({
+          search: `${qs.stringify({
+            ...(history?.location?.query || {}),
+            ...formValues,
+          })}`,
+        });
     });
   };
 
