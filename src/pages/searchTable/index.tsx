@@ -22,7 +22,7 @@ const SearchTablePage = () => {
         setLoading(true)
 
         new Promise((res, rej) => {
-            setTimeout(() => { res({ data: [{ id: 1, some: "qwe", key: 1 }], total: 100 }) }, 1000)
+            setTimeout(() => { res({ data: [{ id: 1, some: "qwe", key: 1 }], total: 100 }) }, 3000)
         }).then(res => {
             setLoading(false)
             setTableData(res)
@@ -91,7 +91,8 @@ const SearchTablePage = () => {
             <SearchTable
                 formProps={{
                     formItems: formItems,
-                    defaultValues: { ...query }
+                    defaultValues: { ...query },
+                    loading,
                 }}
                 tableProps={{
                     columns,

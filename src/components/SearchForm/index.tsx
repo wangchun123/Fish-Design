@@ -15,6 +15,7 @@ import {
     Select,
     Switch,
     TimePicker,
+    Spin
 } from 'antd';
 
 const { RangePicker } = DatePicker;
@@ -39,6 +40,7 @@ export interface SearchFormProps {
     searchBtnText?: React.ReactNode;
     resetBtnText?: React.ReactNode;
     isNeedMapParamToUrl?: boolean;
+    loading?: boolean
 }
 
 const SearchForm: FC<SearchFormProps> = ({
@@ -52,6 +54,7 @@ const SearchForm: FC<SearchFormProps> = ({
     searchBtnText = '查询',
     resetBtnText = '重置',
     isNeedMapParamToUrl = false,
+    loading = false
 }) => {
     const [form] = Form.useForm();
     const history = useHistory();
@@ -167,33 +170,35 @@ const SearchForm: FC<SearchFormProps> = ({
     return (
         <>
             <Form form={form} layout={formLayout}>
-                {isShowForm ? (
-                    <>
-                        <Row wrap={true} gutter={40}>
-                            {formItems?.map((item: Record<string, any>, index: number) => {
-                                return (
-                                    <React.Fragment key={index}>
-                                        {switchNode(item)}
-                                    </React.Fragment>
-                                );
-                            })}
-                        </Row>
-                        {isShowBtns && (
-                            <Row gutter={20} justify={btnsAlign}>
-                                <Col>
-                                    <Button onClick={() => handleFormSubmit()}>
-                                        {searchBtnText}
-                                    </Button>
-                                </Col>
-                                <Col>
-                                    <Button onClick={() => handleFormRest()}>
-                                        {resetBtnText}
-                                    </Button>
-                                </Col>
+                <Spin spinning={loading}>
+                    {isShowForm ? (
+                        <>
+                            <Row wrap={true} gutter={40}>
+                                {formItems?.map((item: Record<string, any>, index: number) => {
+                                    return (
+                                        <React.Fragment key={index}>
+                                            {switchNode(item)}
+                                        </React.Fragment>
+                                    );
+                                })}
                             </Row>
-                        )}
-                    </>
-                ) : null}
+                            {isShowBtns && (
+                                <Row gutter={20} justify={btnsAlign}>
+                                    <Col>
+                                        <Button onClick={() => handleFormSubmit()}>
+                                            {searchBtnText}
+                                        </Button>
+                                    </Col>
+                                    <Col>
+                                        <Button onClick={() => handleFormRest()}>
+                                            {resetBtnText}
+                                        </Button>
+                                    </Col>
+                                </Row>
+                            )}
+                        </>
+                    ) : null}
+                </Spin>
             </Form>
         </>
     );
