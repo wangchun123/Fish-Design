@@ -26,6 +26,7 @@ export default defineConfig({
         { path: '/g6BloodLineage', component: 'g6BloodLineage', title: 'g6BloodLineage' },
         { path: '/selectSearch', component: 'selectSearch', title: 'selectSearch' },
         { path: '/searchForm', component: 'searchForm', title: 'selectSearch' },
+        { path: '/searchTable', component: 'searchTable', title: 'SearchTable' },
       ],
     },
   ],

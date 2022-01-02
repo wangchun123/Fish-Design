@@ -12,4 +12,5 @@ export const MENU_DATA = [
   { url: '/g6BloodLineage', title: 'g6BloodLineage', key: '11' },
   { url: '/selectSearch', title: 'selectSearch', key: '12' },
   { url: '/searchForm', title: 'searchForm', key: '13' },
+  { url: '/searchTable', title: 'searchTable', key: '14' },
 ];
