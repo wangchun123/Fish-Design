@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
 import ReactECharts from 'echarts-for-react';
-import ReactDOM from 'react-dom';
 
 const option = {
     series: {
@@ -11,7 +10,8 @@ const option = {
         emphasis: {
             // focus: 'adjacency'
         },
-        nodeWidth: 130,
+        nodeWidth: 135,
+        nodeAlign: 'left',
         itemStyle: {
             color: '#FF8C00',
             borderWidth: 10,
@@ -24,51 +24,84 @@ const option = {
         label: {
             color: 'black',
             position: [10, 10],
+            fontWeight: 'bolder',
             formatter: (val) => {
                 const { data: { percent, title, number } } = val;
-                return percent + '%' + '\n' + '\n' + title + '\n' + '\n' + number
+                const labelStyleArr = [`{percentStyle|${percent}}%`,
+                `{contentStyle|${title}}`, `\n{contentStyle|${number}}`]
+
+                return labelStyleArr.join('\n')
+            },
+
+            rich: {
+                percentStyle: {
+                    color: 'black',
+                    fontWeight: 'bold',
+                    lineHeight: 24,
+                    fontSize: 18,
+                    fontFamily: 'Microsoft YaHei',
+                    borderColor: '#449933',
+                    borderRadius: 4
+                },
+                contentStyle: {
+
+                },
             }
         },
         lineStyle: {
             color: '#cccc',
+            curveness: 0.8
         },
 
         data: [
             {
                 name: 'a',
                 percent: 100,
-                title: 'Target fleet：',
-                number: 689
+                title: 'Target fleets：',
+                number: 500000000,
             },
             {
                 name: 'a2',
                 percent: 47.2,
-                title: 'Layover close：',
-                number: 236
+                title: 'Layover closed：',
+                number: 236,
+                itemStyle: {
+                    color: 'grey',
+                },
             },
             {
                 name: 'b1',
                 percent: 72.6,
-                title: 'Layover opend：',
+                title: 'Layover opened：',
                 number: 500
             },
             {
                 name: 'c',
                 percent: 52.8,
-                title: 'Go to Lading page：',
+                title: 'Go to Landing Page：',
                 number: 264
             },
             {
                 name: 'c2',
                 percent: '',
-                title: ''
+                title: '',
+                label: {
+                    formatter: ''
+                },
+                itemStyle: {
+                    opacity: 0,
+                },
+
             }
         ],
         links: [
             {
                 source: 'a',
                 target: 'c2',
-                value: 30
+                value: 50,
+                lineStyle: {
+                    opacity: 0
+                },
             },
             {
                 source: 'b1',
@@ -78,7 +111,7 @@ const option = {
             {
                 source: 'a',
                 target: 'b1',
-                value: 72.6
+                value: 100
             },
             {
                 source: 'b1',
