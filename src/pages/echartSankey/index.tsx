@@ -27,7 +27,7 @@ const option = {
             fontWeight: 'bolder',
             formatter: (val) => {
                 const { data: { percent, title, number } } = val;
-                const labelStyleArr = [`{percentStyle|${percent}}%`,
+                const labelStyleArr = [`{percentStyle|${percent}}%\n`,
                 `{contentStyle|${title}}`, `\n{contentStyle|${number}}`]
 
                 return labelStyleArr.join('\n')
@@ -37,7 +37,6 @@ const option = {
                 percentStyle: {
                     color: 'black',
                     fontWeight: 'bold',
-                    lineHeight: 24,
                     fontSize: 18,
                     fontFamily: 'Microsoft YaHei',
                     borderColor: '#449933',
