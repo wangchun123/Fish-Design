@@ -99,7 +99,8 @@ const option = {
                 target: 'c2',
                 value: 50,
                 lineStyle: {
-                    opacity: 0
+                    opacity: 0,
+                    color: 'white'
                 },
             },
             {
