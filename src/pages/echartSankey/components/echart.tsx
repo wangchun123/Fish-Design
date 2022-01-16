@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import ReactECharts from 'echarts-for-react';
-
+import type EChartsInstance from 'echarts-for-react';
+import ReactDOM from 'react-dom'
 
 const series = {
     type: 'sankey',
@@ -86,6 +87,7 @@ interface EchartSankeyProps {
 }
 
 const EchartSankey: React.FC<EchartSankeyProps> = ({ data = [] }) => {
+    const echartRef = useRef<EChartsInstance>();
 
     const newSeries = {
         ...series, data: [...data, ...[{
@@ -102,7 +104,21 @@ const EchartSankey: React.FC<EchartSankeyProps> = ({ data = [] }) => {
         }]]
     }
 
-    return <ReactECharts option={{ series: newSeries }} />
+
+    const onChartReady = (echarts: EChartsInstance) => {
+        echartRef.current = echarts
+    }
+
+    useEffect(() => {
+        echartRef.current?.clear()// 清除画布
+        ReactDOM.render(
+            <ReactECharts
+                option={{ series: newSeries }}
+                onChartReady={onChartReady}
+            />, document.getElementById('eachartSankey'))
+    }, [newSeries])
+
+    return <div id='eachartSankey'></div>
 }
 
 export default EchartSankey
