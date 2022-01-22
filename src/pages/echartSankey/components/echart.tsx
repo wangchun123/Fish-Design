@@ -1,7 +1,8 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, memo } from 'react'
 import ReactECharts from 'echarts-for-react';
 import type EChartsInstance from 'echarts-for-react';
 import ReactDOM from 'react-dom'
+import { isEqual } from 'lodash';
 
 const series = {
     type: 'sankey',
@@ -121,4 +122,12 @@ const EchartSankey: React.FC<EchartSankeyProps> = ({ data = [] }) => {
     return <div id='eachartSankey'></div>
 }
 
-export default EchartSankey
+
+
+
+export default memo(EchartSankey, (preProps, nextProps) => {
+    if (isEqual(preProps, nextProps)) {
+        return true; // 返回true表示不用渲染
+    }
+    return false;
+});
