@@ -1,12 +1,14 @@
 {
   "private": true,
+  "homepage": "./",
   "scripts": {
     "start": "umi dev",
     "build": "umi build",
     "postinstall": "umi generate tmp",
     "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
     "test": "umi-test",
-    "test:coverage": "umi-test --coverage"
+    "test:coverage": "umi-test --coverage",
+    "deploy":"gh-pages -d dist"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
@@ -39,6 +41,7 @@
     "yorkie": "^2.0.0"
   },
   "devDependencies": {
-    "@types/qs": "^6.9.7"
+    "@types/qs": "^6.9.7",
+    "gh-pages": "^3.2.3"
   }
 }
