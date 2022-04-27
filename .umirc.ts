@@ -1,13 +1,16 @@
 import { defineConfig } from 'umi';
 
 export default defineConfig({
+  // 改变路由hash解决服务端刷新页面404
   history: {
     type: 'hash',
   },
+  // webpack 会在静态文件路径前加 publicPath 的值
+  publicPath: './',
   nodeModulesTransform: {
     type: 'none',
   },
-  title: 'hi',
+  title: '见光就死123',
   favicon:
     'https://img.alicdn.com/tps/TB19O79MVXXXXcZXVXXXXXXXXXX-1024-1024.jpg',
   routes: [
