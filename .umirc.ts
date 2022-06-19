@@ -50,6 +50,11 @@ export default defineConfig({
           component: 'echartSankey',
           title: 'echartSankey',
         },
+        {
+          path: '/editTextArea',
+          component: 'editTextArea',
+          title: 'editTextArea',
+        },
       ],
     },
   ],

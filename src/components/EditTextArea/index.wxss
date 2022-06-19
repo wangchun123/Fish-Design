@@ -1,0 +1,43 @@
+.edit-wapper {
+  width: 472px;
+  height: 360px;
+  background: #f5f5f5;
+  border-radius: 3px;
+  overflow: hidden;
+  display: flex;
+  position: relative;
+}
+.edit-wapper #leftNum {
+  flex-basis: 55px;
+  resize: none;
+  outline: none;
+  height: 360px;
+  width: 100%;
+  background: #f5f5f5;
+  padding-top: 12px;
+  text-align: center;
+  overflow: hidden;
+  color: #888d92;
+  border: none;
+  line-height: 20px;
+  font-size: 14px;
+}
+.edit-wapper #leftNum::-webkit-scrollbar {
+  width: 0;
+}
+.edit-wapper #content {
+  width: 410px;
+  flex-grow: 1;
+  resize: none;
+  outline: none;
+  height: 360px;
+  background: #f5f5f5;
+  padding-top: 12px;
+  overflow-y: auto;
+  color: #888d92;
+  border: none;
+  font-size: 14px;
+}
+.edit-wapper #content::-webkit-scrollbar {
+  width: 0;
+}

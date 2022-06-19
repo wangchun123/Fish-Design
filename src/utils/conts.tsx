@@ -14,5 +14,5 @@ export const MENU_DATA = [
   { url: '/searchForm', title: 'searchForm', key: '13' },
   { url: '/searchTable', title: 'searchTable', key: '14' },
   { url: '/echartSankey', title: 'echartSankey', key: '15' },
-
+  { url: '/editTextArea', title: 'editTextArea', key: '16' },
 ];

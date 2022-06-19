@@ -9,3 +9,4 @@ export { default as Message } from '@/components/Message';
 export { default as DebounceSelect } from '@/components/DebounceSelect';
 export { default as SearchForm } from '@/components/SearchForm';
 export { default as SearchTable } from '@/components/SearchTable';
+export { default as EditTextArea } from '@/components/EditTextArea';
