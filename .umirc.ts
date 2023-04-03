@@ -55,6 +55,11 @@ export default defineConfig({
           component: 'editTextArea',
           title: 'editTextArea',
         },
+        {
+          path: '/pageDrag',
+          component: 'pageDrag',
+          title: 'pageDrag',
+        },
       ],
     },
   ],
