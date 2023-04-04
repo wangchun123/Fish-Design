@@ -56,9 +56,9 @@ export default defineConfig({
           title: 'editTextArea',
         },
         {
-          path: '/pageDrag',
-          component: 'pageDrag',
-          title: 'pageDrag',
+          path: '/SplitScreen',
+          component: 'SplitScreen',
+          title: 'SplitScreen',
         },
       ],
     },

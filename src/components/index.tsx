@@ -10,3 +10,4 @@ export { default as DebounceSelect } from '@/components/DebounceSelect';
 export { default as SearchForm } from '@/components/SearchForm';
 export { default as SearchTable } from '@/components/SearchTable';
 export { default as EditTextArea } from '@/components/EditTextArea';
+export { default as SplitScreen } from '@/components/SplitScreen';
