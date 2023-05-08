@@ -19,3 +19,7 @@ Start my src/server,
 ```bash
 $ nodemon server.js
 ``` 
+
+# 页面部署到github上
+npm run build
+npm run deploy
