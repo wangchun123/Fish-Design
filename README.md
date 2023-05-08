@@ -21,5 +21,12 @@ $ nodemon server.js
 ``` 
 
 # 页面部署到github上
-npm run build
-npm run deploy
+
+
+```bash
+$ npm run build
+```
+```bash
+$ npm run deploy
+```
+
