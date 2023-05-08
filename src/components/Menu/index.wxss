@@ -1,0 +1,47 @@
+.fish_menu {
+  position: relative;
+  display: flex;
+}
+.fish_menu .content {
+  position: relative;
+  border: 1px solid #dcdee3;
+  min-width: 300px;
+}
+.fish_menu .content .item-default {
+  display: block;
+  height: 40px;
+  min-width: 300px;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 0 10px;
+}
+.fish_menu .content .item-active {
+  display: block;
+  height: 40px;
+  min-width: 300px;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  background: #e6f7ff;
+  cursor: pointer;
+  padding: 0 10px;
+  border-right: 3px solid #1890ff;
+  color: #1890ff;
+}
+.fish_menu .content .help_center {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+.fish_menu .content .menu-content {
+  overflow-y: scroll;
+  max-height: calc(100vh - 140px);
+}
