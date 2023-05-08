@@ -65,21 +65,23 @@ const Menu: React.FC<Iprops> = ({
         style={JSON.stringify(menuStyle) === '{}' ? {} : menuStyle}
       >
         {personalInformation}
-        {menuData.map((item, index) => {
-          return (
-            <span
-              className={item.isActive ? 'item-active' : 'item-default'}
-              key={item.key}
-              style={JSON.stringify(itemStyle) === '{}' ? {} : itemStyle}
-              onClick={() => {
-                handelClick(item, index);
-                onChange && onChange(item, index);
-              }}
-            >
-              {item.title}
-            </span>
-          );
-        })}
+        <div className="menu-content">
+          {menuData.map((item, index) => {
+            return (
+              <span
+                className={item.isActive ? 'item-active' : 'item-default'}
+                key={item.key}
+                style={JSON.stringify(itemStyle) === '{}' ? {} : itemStyle}
+                onClick={() => {
+                  handelClick(item, index);
+                  onChange && onChange(item, index);
+                }}
+              >
+                {item.title}
+              </span>
+            );
+          })}
+        </div>
         <div className="help_center">{helpCenter}</div>
       </div>
     </div>

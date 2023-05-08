@@ -16,4 +16,5 @@ export const MENU_DATA = [
   { url: '/echartSankey', title: 'echartSankey', key: '15' },
   { url: '/editTextArea', title: 'editTextArea', key: '16' },
   { url: '/SplitScreen', title: 'SplitScreen', key: '17' },
+  { url: '/timer', title: 'timer', key: '18' },
 ];

@@ -60,6 +60,11 @@ export default defineConfig({
           component: 'SplitScreen',
           title: 'SplitScreen',
         },
+        {
+          path: '/timer',
+          component: 'timer',
+          title: 'timer',
+        },
       ],
     },
   ],
