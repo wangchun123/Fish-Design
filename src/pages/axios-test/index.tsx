@@ -6,7 +6,8 @@ export default () => {
   const handleGet = async () => {
     const data = await request({
       method: 'get',
-      url: 'https://www.easy-mock.com/mock/5f02c2a4ea559b58ee72379f/some/all',
+      url:
+        'https://www.fastmock.site/mock/75fa8d6f3f9a9b2de2eab2c8c15da4c2/example/crops/api/hallmarket/queryTargetOverView',
     });
     console.log('data', data);
   };
