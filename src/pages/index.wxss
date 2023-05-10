@@ -9,6 +9,7 @@
   padding: 20px 20px;
   flex: 1;
   background: #f5f5f5;
+  overflow: hidden;
 }
 .fish_index .fish_index_content .fish_index_content_compent {
   background: #ffff;

@@ -158,8 +158,8 @@ const tooltip = new G6.Tooltip({
   },
 });
 
-const width = 800;
-const height = 500;
+const width = 1000;
+const height = window.innerHeight;
 
 const G6BloodLineage = () => {
   const warpRef = useRef(null);
