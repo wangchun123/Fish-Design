@@ -1,0 +1,43 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+.fish_index {
+  display: flex;
+}
+.fish_index .fish_index_content {
+  padding: 20px 20px;
+  flex: 1;
+  background: #f5f5f5;
+}
+.fish_index .fish_index_content .fish_index_content_compent {
+  background: #ffff;
+  margin-left: 300px;
+  height: calc(100vh - 35px);
+  width: auto;
+  padding: 20px 20px;
+}
+.fish_index .personal_information {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  font-size: 20px;
+  background: black;
+  color: #ffff;
+}
+.fish_index .menu {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  overflow-y: auto;
+}
+.fish_index .index_help_center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  height: 60px;
+  width: 300px;
+  background: #23272f;
+}

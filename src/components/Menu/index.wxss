@@ -45,3 +45,6 @@
   overflow-y: scroll;
   max-height: calc(100vh - 140px);
 }
+.fish_menu .content .menu-content::-webkit-scrollbar {
+  display: none;
+}
